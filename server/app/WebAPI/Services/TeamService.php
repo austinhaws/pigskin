@@ -2,6 +2,9 @@
 
 namespace App\WebAPI\Services;
 
+use App\WebAPI\Enums\DBTable;
+use App\WebAPI\Enums\Rating;
+use App\WebAPI\Enums\Roster;
 use Illuminate\Support\Facades\DB;
 
 class TeamService extends BaseService
@@ -14,7 +17,7 @@ class TeamService extends BaseService
 	 */
 	public function get($accountId)
 	{
-		return DB::table('team')->where('account_id', $accountId)->first();
+		return DB::table(DBTable::TEAM)->where('account_id', $accountId)->first();
 	}
 
 	/**
@@ -29,7 +32,7 @@ class TeamService extends BaseService
 
 		$players = $this->createPlayers();
 
-		DB::table('team')->insert([
+		DB::table(DBTable::TEAM)->insert([
 			'account_id' => $accountId,
 			'name' => $name,
 			'players' => json_encode($players),
@@ -51,7 +54,7 @@ class TeamService extends BaseService
 		);
 
 		for ($i = 0; $i < 11; $i++) {
-			$this->boostPlayer($players[$this->webApi->rollService->roll(0, count($players) - 1)]);
+			$this->webApi->playerService->boostPlayer($players[$this->webApi->rollService->roll(0, count($players) - 1)]);
 		}
 
 		return $players;
@@ -65,7 +68,7 @@ class TeamService extends BaseService
 	 */
 	private function fillRoster($positions) {
 		return array_map(function ($position) {
-			$this->webApi->playerService->createPlayer($position, Rating::F);
+			return $this->webApi->playerService->createPlayer($position, Rating::F);
 		}, $positions);
 	}
 }

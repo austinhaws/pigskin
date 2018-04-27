@@ -2,6 +2,7 @@
 
 namespace App\WebAPI\Services;
 
+use App\WebAPI\Enums\DBTable;
 use Illuminate\Support\Facades\DB;
 
 class GuidService extends BaseService
@@ -14,7 +15,7 @@ class GuidService extends BaseService
 	{
 		do {
 			$guid = uniqid();
-			$account = DB::table('account')->where('guid', $guid)->get();
+			$account = DB::table(DBTable::ACCOUNT)->where('guid', $guid)->get();
 		} while (count($account));
 		return $guid;
 	}

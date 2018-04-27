@@ -35,17 +35,15 @@ class ChartService extends BaseService
 	private function rollChart($chartDetails) {
 		// sort by maximum ascending
 		$chartDetailsSorted = $chartDetails->sort(function ($a, $b) {
-			return $a->maximum - $b->maximum;
+			return $b->maximum - $a->maximum;
 		});
 
 		// get the maximum weight value
-		$max = $chartDetailsSorted[count($chartDetailsSorted) - 1]->maximum;
+		$max = $chartDetailsSorted[0]->maximum;
 
 		// roll a random weight value
 		$roll = $this->webApi->rollService->roll(1, $max);
-
 		// get the item that has the random weight value in its range
-		$result = false;
 		for ($i = 0; $i < count($chartDetailsSorted) && $chartDetailsSorted[$i]->maximum >= $roll; $i++) {
 			$result = $chartDetailsSorted[$i];
 		}

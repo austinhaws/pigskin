@@ -2,6 +2,7 @@
 
 namespace App\WebAPI\Services;
 
+use App\WebAPI\Enums\DBTable;
 use Illuminate\Support\Facades\DB;
 
 class AccountService extends BaseService
@@ -14,9 +15,9 @@ class AccountService extends BaseService
 	 */
 	public function get($phraseOrGuid)
 	{
-		$account = DB::table('account')->where('phrase', $phraseOrGuid)->first();
+		$account = DB::table(DBTable::ACCOUNT)->where('phrase', $phraseOrGuid)->first();
 		if (!$account) {
-			$account = DB::table('account')->where('guid', $phraseOrGuid)->first();
+			$account = DB::table(DBTable::ACCOUNT)->where('guid', $phraseOrGuid)->first();
 		}
 		if ($account) {
 			$account->team = $this->webApi->responseService->cleanRecord($this->webApi->teamService->get($account->id), ['account_id']);
@@ -33,7 +34,7 @@ class AccountService extends BaseService
 	{
 		$phrase = $this->webApi->phraseService->getNewPhrase();
 		$guid = $this->webApi->guidService->getNewGuid();
-		$accountId = DB::table('account')->insertGetId(['phrase' => $phrase, 'guid' => $guid]);
+		$accountId = DB::table(DBTable::ACCOUNT)->insertGetId(['phrase' => $phrase, 'guid' => $guid]);
 
 		// also create a new team for the account
 		$this->webApi->teamService->create($accountId);

@@ -2,6 +2,8 @@
 
 namespace App\WebAPI\Services;
 
+use App\WebAPI\WebAPI;
+
 class BaseService
 {
 	/** @var WebAPI all the Services available for your consumption, SIR! */

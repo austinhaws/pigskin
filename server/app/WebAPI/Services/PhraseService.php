@@ -2,6 +2,7 @@
 
 namespace App\WebAPI\Services;
 
+use App\WebAPI\Enums\DBTable;
 use Illuminate\Support\Facades\DB;
 
 class PhraseService extends BaseService
@@ -40,7 +41,7 @@ class PhraseService extends BaseService
 	{
 		do {
 			$phrase = $this->getRandomPhrase();
-			$account = DB::table('account')->where('phrase', $phrase)->get();
+			$account = DB::table(DBTable::ACCOUNT)->where('phrase', $phrase)->get();
 		} while (count($account));
 		return $phrase;
 	}

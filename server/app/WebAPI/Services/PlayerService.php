@@ -38,7 +38,7 @@ class PlayerService extends BaseService
 		$skill = $this->webApi->chartService->playerUpgradeType($player->position);
 
 		// give bonus to that skill based on player rating
-		$player->{$skill} += $this->webApi->rollService->rollRatingSkillBonus($player->position);
+		$player->{$skill . 'Skill'} += $this->webApi->rollService->rollRatingSkillBonus($player->position);
 	}
 
 }
