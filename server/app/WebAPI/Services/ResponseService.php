@@ -1,6 +1,6 @@
 <?php
 
-require_once 'BaseService.php';
+namespace App\WebAPI\Services;
 
 class ResponseService extends BaseService
 {
@@ -9,10 +9,14 @@ class ResponseService extends BaseService
 	 * pull common sensitive fields out of the record like id
 	 *
 	 * @param $record object the record that may have sensitive data
+	 * @param array $additionalFields other fields to also clear
 	 * @return object the object without common sensitive fields
 	 */
-	public function cleanRecord($record) {
-		unset($record->id);
+	public function cleanRecord($record, $additionalFields = []) {
+		foreach (array_merge($additionalFields, ['id']) as $field) {
+			unset($record->{$field});
+		}
+
 		return $record;
 	}
 

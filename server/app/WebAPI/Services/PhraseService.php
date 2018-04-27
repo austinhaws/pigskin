@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
+namespace App\WebAPI\Services;
 
-require_once 'BaseService.php';
+use Illuminate\Support\Facades\DB;
 
 class PhraseService extends BaseService
 {
@@ -11,7 +11,7 @@ class PhraseService extends BaseService
 	 *
 	 * @return string
 	 */
-	private function selectRandomWord() {
+	public function getRandomPhrase() {
 		return DB::selectOne(DB::raw("
 			SELECT
 				CONCAT(
@@ -39,7 +39,7 @@ class PhraseService extends BaseService
 	public function getNewPhrase()
 	{
 		do {
-			$phrase = $this->selectRandomWord();
+			$phrase = $this->getRandomPhrase();
 			$account = DB::table('account')->where('phrase', $phrase)->get();
 		} while (count($account));
 		return $phrase;

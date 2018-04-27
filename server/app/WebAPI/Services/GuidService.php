@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
+namespace App\WebAPI\Services;
 
-require_once 'BaseService.php';
+use Illuminate\Support\Facades\DB;
 
 class GuidService extends BaseService
 {

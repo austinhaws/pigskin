@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
+namespace App\WebAPI\Services;
 
-require_once 'BaseService.php';
+use Illuminate\Support\Facades\DB;
 
 class AccountService extends BaseService
 {
@@ -18,6 +18,9 @@ class AccountService extends BaseService
 		if (!$account) {
 			$account = DB::table('account')->where('guid', $phraseOrGuid)->first();
 		}
+		if ($account) {
+			$account->team = $this->webApi->responseService->cleanRecord($this->webApi->teamService->get($account->id), ['account_id']);
+		}
 		return $account;
 	}
 
@@ -30,12 +33,11 @@ class AccountService extends BaseService
 	{
 		$phrase = $this->webApi->phraseService->getNewPhrase();
 		$guid = $this->webApi->guidService->getNewGuid();
-		DB::table('account')->insertGetId(['phrase' => $phrase, 'guid' => $guid]);
-		$account = $this->get($phrase);
+		$accountId = DB::table('account')->insertGetId(['phrase' => $phrase, 'guid' => $guid]);
 
 		// also create a new team for the account
-//		$this->webApi->teamService->createTeam($account->id);
+		$this->webApi->teamService->create($accountId);
 
-		return $account;
+		return $this->get($phrase);
 	}
 }

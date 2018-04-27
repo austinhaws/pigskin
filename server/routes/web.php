@@ -11,7 +11,7 @@
 |
 */
 
-require_once 'WebAPI.php';
+use App\WebAPI\WebAPI;
 
 $webApi = new WebAPI();
 
