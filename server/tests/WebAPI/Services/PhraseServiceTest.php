@@ -9,6 +9,6 @@ class PhraseServiceTest extends TestCase
     	$webApi = new WebAPI();
 
     	$phrase = $webApi->phraseService->getRandomPhrase();
-    	$this->assertEquals(1, preg_match('/^[A-Z].*[A-Z].*\d\d$/', $phrase), $phrase);
+    	$this->assertEquals(1, preg_match('/^[A-Z]+[A-Z]+\d\d$/i', $phrase), $phrase);
     }
 }
