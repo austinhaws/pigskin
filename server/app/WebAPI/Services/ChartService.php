@@ -43,6 +43,7 @@ class ChartService extends BaseService
 
 		// roll a random weight value
 		$roll = $this->webApi->rollService->roll(1, $max);
+		$result = $chartDetailsSorted[0];
 		// get the item that has the random weight value in its range
 		for ($i = 0; $i < count($chartDetailsSorted) && $chartDetailsSorted[$i]->maximum >= $roll; $i++) {
 			$result = $chartDetailsSorted[$i];
