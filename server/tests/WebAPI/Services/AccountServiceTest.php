@@ -1,17 +1,16 @@
 <?php
+namespace App\WebAPI\Test\Services;
 
-use App\WebAPI\WebAPI;
-
-class AccountServiceTest extends TestCase
+class AccountServiceTest extends BaseServiceTest
 {
     public function testCreateGet()
     {
-    	$webApi = new WebAPI();
+		$this->webApiTest->rollService->setRolls(['*']);
 
-    	$account1 = $webApi->accountService->create();
+    	$account1 = $this->webApiTest->accountService->create();
 
-    	$account2 = $webApi->accountService->get($account1->guid);
-    	$account3 = $webApi->accountService->get($account1->phrase);
+    	$account2 = $this->webApiTest->accountService->get($account1->guid);
+    	$account3 = $this->webApiTest->accountService->get($account1->phrase);
 
 		$this->assertEquals($account1->phrase, $account2->phrase);
 		$this->assertEquals($account1->guid, $account2->guid);

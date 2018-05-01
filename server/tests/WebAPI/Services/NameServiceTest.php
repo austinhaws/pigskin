@@ -1,14 +1,12 @@
 <?php
 
-use App\WebAPI\WebAPI;
+namespace App\WebAPI\Test\Services;
 
-class NameServiceTest extends TestCase
+class NameServiceTest extends BaseServiceTest
 {
     public function testPhrase()
     {
-    	$webApi = new WebAPI();
-
-    	$phrase = $webApi->nameService->getRandomName();
+    	$phrase = $this->webApiTest->nameService->getRandomName();
     	$this->assertEquals(1, preg_match('/^[A-Z]+ [A-Z]+$/i', $phrase), $phrase);
     }
 }

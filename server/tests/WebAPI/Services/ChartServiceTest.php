@@ -1,17 +1,19 @@
 <?php
 
+namespace App\WebAPI\Test\Services;
+
 use App\WebAPI\Enums\Position;
 
 class ChartServiceTest extends BaseServiceTest
 {
     public function testRollChart()
     {
-    	$this->webApi->rollService->setRolls([100]);
-		$upgradeType = $this->webApi->chartService->playerUpgradeType(Position::QUARTER_BACK);
+    	$this->webApiTest->rollService->setRolls([100]);
+		$upgradeType = $this->webApiTest->chartService->playerUpgradeType(Position::QUARTER_BACK);
 		$this->assertEquals('run', $upgradeType);
 
-    	$this->webApi->rollService->setRolls([1]);
-		$upgradeType = $this->webApi->chartService->playerUpgradeType(Position::QUARTER_BACK);
+    	$this->webApiTest->rollService->setRolls([1]);
+		$upgradeType = $this->webApiTest->chartService->playerUpgradeType(Position::QUARTER_BACK);
 		$this->assertEquals('pass', $upgradeType);
     }
 }

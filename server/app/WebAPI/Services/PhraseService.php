@@ -28,7 +28,7 @@ class PhraseService extends BaseService
 					WHERE type = 'noun'
 					ORDER BY rand()
 					LIMIT 1),
-					FLOOR(RAND() * 100) + 10
+					FLOOR(RAND() * 90) + 10
 				) AS phrase
 		"))->phrase;
 	}

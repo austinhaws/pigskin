@@ -18,9 +18,14 @@ class RollServiceMock extends RollService
 	 */
 	public function roll($min, $max) {
 		if (!count($this->rollResults)) {
-			throw new \RuntimeException('Out of test rolls! Call $this->>webApi->rollService->addRolls([3, 2, 1]); to add rolls for a test.');
+			throw new \RuntimeException('Out of test rolls! Call $this->webApi->rollService->setRolls([3, 2, 1]); to add rolls for a test.');
 		}
-		return array_shift($this->rollResults);
+		$roll = array_shift($this->rollResults);
+		if ($roll === '*') {
+			$this->rollResults[] = $roll;
+			$roll = parent::roll($min, $max);
+		}
+		return $roll;
 	}
 
 	/**
@@ -28,5 +33,15 @@ class RollServiceMock extends RollService
 	 */
 	public function setRolls($rolls) {
 		$this->rollResults = $rolls;
+	}
+
+	/**
+	 * make sure rolls were all usd
+	 */
+	public function verifyRolls() {
+		$numRolls = count($this->rollResults);
+		if ($numRolls > 1 || ($numRolls === 1 && $this->rollResults[0] !== '*')) {
+			throw new \RuntimeException('There are rolls remaining: ' . json_encode($this->rollResults));
+		}
 	}
 }
