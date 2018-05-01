@@ -1,0 +1,85 @@
+{
+ "name": "pigskin",
+ "version": "1.0.0",
+ "description": "Pig Skin - Football Team Manager",
+ "main": "webpack.config.js",
+ "dependencies": {
+  "axios": "^0.18.0",
+  "babel-core": "^6.26.3",
+  "babel-loader": "^7.1.4",
+  "babel-preset-env": "^1.6.1",
+  "babel-preset-latest": "^6.24.1",
+  "babel-preset-react": "^6.24.1",
+  "clone": "^2.1.1",
+  "css-loader": "^0.28.11",
+  "eslint-plugin-node": "^6.0.1",
+  "moment": "^2.22.1",
+  "node-sass": "^4.9.0",
+  "npm": "^6.0.0",
+  "npm-check-updates": "^2.14.2",
+  "prop-types": "^15.6.1",
+  "react": "^16.3.2",
+  "react-dom": "^16.3.2",
+  "react-redux": "^5.0.7",
+  "react-router-dom": "^4.2.2",
+  "redux": "^4.0.0"
+ },
+ "devDependencies": {
+  "autoprefixer": "^8.4.1",
+  "babel-eslint": "^8.2.3",
+  "babel-jest": "^22.4.3",
+  "babel-polyfill": "^6.26.0",
+  "babel-preset-stage-0": "^6.24.1",
+  "enzyme": "^3.3.0",
+  "enzyme-adapter-react-16": "^1.1.1",
+  "eslint": "^4.19.1",
+  "eslint-config-standard": "^11.0.0",
+  "eslint-plugin-import": "^2.11.0",
+  "eslint-plugin-jsx-a11y": "^6.0.3",
+  "eslint-plugin-promise": "^3.7.0",
+  "eslint-plugin-react": "^7.7.0",
+  "eslint-plugin-standard": "^3.1.0",
+  "eslint-watch": "^3.1.4",
+  "extract-text-webpack-plugin": "^4.0.0-beta.0",
+  "identity-obj-proxy": "^3.0.0",
+  "jasmine2-custom-message": "^0.9.0",
+  "jest": "^22.4.3",
+  "jest-environment-jsdom": "^22.4.3",
+  "postcss-loader": "^2.1.4",
+  "react-addons-test-utils": "^15.6.2",
+  "react-test-renderer": "^16.3.2",
+  "sass-loader": "^7.0.1",
+  "style-loader": "^0.21.0",
+  "webpack": "^4.6.0",
+  "webpack-cli": "^2.1.2"
+ },
+ "scripts": {
+  "dev": "webpack -d --watch",
+  "watch": "./node_modules/.bin/webpack -d --watch --display-error-details --progress",
+  "build": "./node_modules/.bin/webpack -d --display-error-details --progress",
+  "lint": "esw webpack.config.* src/main/webapp/js/react tools || exit 0",
+  "lint:watch": "npm run lint -- --watch",
+  "npm reinstall": "npm install",
+  "test": "jest --verbose",
+  "testw": "jest --watch --verbose",
+  "testd": "jest --watch --debug",
+  "testc": "jest --clearCache"
+ },
+ "babel": {
+  "presets": [
+   "env"
+  ]
+ },
+ "jest": {
+  "moduleNameMapper": {
+   "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|scss|css|less)$": "identity-obj-proxy"
+  },
+  "collectCoverage": true,
+  "testPathIgnorePatterns": [
+   "/target/"
+  ],
+  "transformIgnorePatterns": []
+ },
+ "author": "DTS",
+ "license": "ISC"
+}
