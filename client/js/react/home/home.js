@@ -9,10 +9,13 @@ class Home extends React.Component {
 
 	render() {
 		return (
-			<Switch>
-				<Route path="/admin" render={() => <div>admin</div>}/>
-				<Route render={() => <div>Let me test your stuff</div>}/>
-			</Switch>
+			<React.Fragment>
+				<div id="title" className="chalk-font">Pig Skin</div>
+				<Switch>
+					<Route path="/admin" render={() => <div>admin</div>}/>
+					<Route render={() => <div>Let me test your stuff</div>}/>
+				</Switch>
+			</React.Fragment>
 		);
 	}
 
