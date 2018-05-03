@@ -3,6 +3,7 @@ import {render} from "react-dom";
 import {Provider} from "react-redux";
 import redux from "../common/redux";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+import Admin from "../admin/Admin";
 
 // ==== setup react container for the report ==== //
 class Home extends React.Component {
@@ -12,8 +13,8 @@ class Home extends React.Component {
 			<React.Fragment>
 				<div id="title" className="chalk-font">Pig Skin</div>
 				<Switch>
-					<Route path="/admin" render={() => <div>admin</div>}/>
-					<Route render={() => <div>Let me test your stuff</div>}/>
+					<Route path="/admin" render={() => <Admin {...this.props}/>}/>
+					<Route render={() => <div>no matching route</div>}/>
 				</Switch>
 			</React.Fragment>
 		);
