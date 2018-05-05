@@ -26,6 +26,7 @@ class PlayerService extends BaseService
 		$player->passSkill = 1;
 		$player->runSkill = 1;
 		$player->specialSkill = 1;
+		$player->age = $this->webApi->chartService->playerAge();
 
 		return $player;
 	}

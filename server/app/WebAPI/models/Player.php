@@ -16,4 +16,7 @@ class Player extends BaseModel
 
 	/** @var string how good this player is overall (A-F) */
 	public $rating;
+
+	/** @var int how old the player is */
+	public $age;
 }

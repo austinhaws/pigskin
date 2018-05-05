@@ -2,11 +2,15 @@
 
 namespace App\WebAPI\Test\Services;
 
+use App\WebAPI\Enums\Position;
+use App\WebAPI\Services\Mock\RollServiceMock;
+
 class PlayerServiceTest extends BaseServiceTest
 {
     public function testCreatePlayer()
     {
-    	$phrase = $this->webApiTest->phraseService->getRandomPhrase();
-    	$this->assertEquals(1, preg_match('/^[A-Z]+[A-Z]+\d\d$/i', $phrase), $phrase);
+    	$this->webApiTest->rollService->setRolls([RollServiceMock::INFINITE_WILD_CARD]);
+    	$player = $this->webApiTest->playerService->createPlayer(Position::QUARTER_BACK);
+    	$this->assertNotNull($player->age);
     }
 }

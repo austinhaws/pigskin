@@ -8,4 +8,7 @@ interface ChartType {
 
 	// 1-5 rating level of doing an upgrade (size of upgrade dice and # of rolls)
 	public const UPGRADE_RATING = 'Upgrade Rating';
+
+	// starting age of a player
+	public const PLAYER_STARTING_AGE = 'Player Starting Age';
 }

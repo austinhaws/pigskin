@@ -6,6 +6,8 @@ use App\WebAPI\Services\RollService;
 
 class RollServiceMock extends RollService
 {
+	public const INFINITE_WILD_CARD = '*';
+
 	/** @var array int the roll results to return */
 	private $rollResults = [];
 
@@ -21,7 +23,7 @@ class RollServiceMock extends RollService
 			throw new \RuntimeException('Out of test rolls! Call $this->webApi->rollService->setRolls([3, 2, 1]); to add rolls for a test.');
 		}
 		$roll = array_shift($this->rollResults);
-		if ($roll === '*') {
+		if ($roll === RollServiceMock::INFINITE_WILD_CARD) {
 			$this->rollResults[] = $roll;
 			$roll = parent::roll($min, $max);
 		}
@@ -40,7 +42,7 @@ class RollServiceMock extends RollService
 	 */
 	public function verifyRolls() {
 		$numRolls = count($this->rollResults);
-		if ($numRolls > 1 || ($numRolls === 1 && $this->rollResults[0] !== '*')) {
+		if ($numRolls > 1 || ($numRolls === 1 && $this->rollResults[0] !== RollServiceMock::INFINITE_WILD_CARD)) {
 			throw new \RuntimeException('There are rolls remaining: ' . json_encode($this->rollResults));
 		}
 	}

@@ -21,9 +21,14 @@ class ChartService extends BaseService
 	 * @return string value of the randomly selected chart detail item
 	 */
 	public function playerUpgradeType($position) {
-		$options = $this->chartDao->selectChartDetails(ChartType::PLAYER_UPGRADE_TYPE, $position);
-		$option = $this->rollChart($options);
-		return $option->value;
+		return $this->rollDetailChart(ChartType::PLAYER_UPGRADE_TYPE, $position);
+	}
+
+	/**
+	 * @return string age for the player
+	 */
+	public function playerAge() {
+		return $this->rollDetailChart(ChartType::PLAYER_STARTING_AGE);
 	}
 
 	/**
@@ -60,5 +65,19 @@ class ChartService extends BaseService
 	 */
 	public function randomRating() {
 		throw new Exception('use a chart of odds of given ratings with A being rare and F common - use filter on chart for "draft"');
+	}
+
+	/**
+	 * get chart details and return a randomly selected detail value
+	 *
+	 * @param $chartType string which chart ChartType... enum
+	 * @param null $filter string used to filter chart details from a chart type
+	 * @return string the random value
+	 */
+	private function rollDetailChart($chartType, $filter = null)
+	{
+		$options = $this->chartDao->selectChartDetails($chartType, $filter);
+		$option = $this->rollChart($options);
+		return $option->value;
 	}
 }
