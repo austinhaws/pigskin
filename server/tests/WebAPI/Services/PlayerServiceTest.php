@@ -13,4 +13,18 @@ class PlayerServiceTest extends BaseServiceTest
     	$player = $this->webApiTest->playerService->createPlayer(Position::QUARTER_BACK);
     	$this->assertNotNull($player->age);
     }
+
+    public function testBoostPlayer() {
+		$this->webApiTest->rollService->setRolls([25, 24, 23, 1]);
+
+    	$player = $this->webApiTest->playerService->createPlayer(Position::DEFENSIVE_LINE);
+    	$this->assertEquals(1, $player->runSkill);
+    	$this->assertEquals(1, $player->passSkill);
+    	$this->assertEquals(0, $player->specialSkill);
+
+    	$this->webApiTest->playerService->boostPlayer($player);
+    	$this->assertEquals(1, $player->runSkill);
+    	$this->assertEquals(2, $player->passSkill);
+    	$this->assertEquals(0, $player->specialSkill);
+	}
 }

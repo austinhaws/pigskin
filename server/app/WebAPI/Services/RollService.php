@@ -2,6 +2,8 @@
 
 namespace App\WebAPI\Services;
 
+use App\WebAPI\Enums\ChartType;
+
 class RollService extends BaseService
 {
 	/**
@@ -23,10 +25,11 @@ class RollService extends BaseService
 	}
 
 	/**
-	 * @param $position string Position enum
+	 * @param $rating string Rating:: enum value
+	 * @return int the resulting bonus
 	 */
-	public function rollRatingSkillBonus($position)
+	public function rollRatingSkillBonus($rating)
 	{
-
+		return $this->roll(1, $this->webApi->chartService->lookupChartValue(ChartType::RATING_SKILL_BONUS_ROLL, $rating));
 	}
 }

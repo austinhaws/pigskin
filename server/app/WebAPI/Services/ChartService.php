@@ -71,7 +71,7 @@ class ChartService extends BaseService
 	 * get chart details and return a randomly selected detail value
 	 *
 	 * @param $chartType string which chart ChartType... enum
-	 * @param null $filter string used to filter chart details from a chart type
+	 * @param $filter string used to filter chart details from a chart type
 	 * @return string the random value
 	 */
 	private function rollDetailChart($chartType, $filter = null)
@@ -79,5 +79,16 @@ class ChartService extends BaseService
 		$options = $this->chartDao->selectChartDetails($chartType, $filter);
 		$option = $this->rollChart($options);
 		return $option->value;
+	}
+
+	/**
+	 * a chart has a value based on a filter, return that single value
+	 *
+	 * @param $chartType string which chart ChartType... enum
+	 * @param $filter string used to filter chart details from a chart type
+	 * @return string the matching value for the filter
+	 */
+	public function lookupChartValue($chartType, $filter) {
+		return $this->rollDetailChart($chartType, $filter);
 	}
 }

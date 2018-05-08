@@ -1,8 +1,5 @@
-setup web call urls for account
-* \[ ] create: also create a team
-* \[ ] select
-*  X  modify
-*  X  delete
+* \[ ] Service Tests - make sure they're all getting tested
+* \[ ] Team Service - make sure enough players are getting boosted 
 
 Team Page
 * list of players
@@ -37,7 +34,6 @@ Team Page
   * when team created, select first of each position type to form lineups just for defaults
   * put a question mark tooltip next to player list so it's obvious the rules 
   
-* are setarting players getting bonuses? write unit tests for this
   
 Login
 * in top right show generated ID
@@ -45,13 +41,6 @@ Login
 
 setup web call for start page
 * \[ ] if in draft then go to draft page with draft id
-
-* \[ ] Main menu items
-  * \[ ] Home
-  * \[ ] Team
-  * \[ ] Draft/Next Game - whatever is next thing to do for team
-  
-
   
 * \[ ] Home page shows news items
   * \[ ] if not logged in then show message that they have to remember they're ID to access their team from somewhere else or they can log in with google/facebook
