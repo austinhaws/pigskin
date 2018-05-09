@@ -6,9 +6,9 @@ import clone from "clone";
 // use ReduxService instead of calling or importing this stuff directly
 
 function objectAtPath(obj, path) {
-	return path
+	return path ? path
 		.split('\.')
-		.reduce((prevObj, piece) => prevObj[piece], obj);
+		.reduce((prevObj, piece) => prevObj[piece], obj) : obj;
 }
 
 const reducers = {
@@ -21,7 +21,6 @@ reducers[reducers.ACTION_TYPES.OBJECT_PATH] = (state, action) => {
 	const result = clone(state);
 	// payload can be an array of targets or a single one
 	_.castArray(action.payload).forEach(payload => objectAtPath(result, payload.path)[payload.field] = clone(payload.value));
-	//result[action.payload.path][action.payload.field] = action.payload.value;
 	return result;
 
 };

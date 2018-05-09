@@ -33,6 +33,7 @@ export default class extends BaseService {
 	 * @param account
 	 */
 	storeAccount(account) {
+		this.service.localStorageService.setItem(this.localStorageAccountKey, account.phrase);
 		this.service.reduxService.dispatchObjectAtPath(false, 'account', account);
 	}
 };

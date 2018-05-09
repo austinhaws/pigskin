@@ -7,6 +7,8 @@ export default class extends BaseService {
 
 		this.getItem = this.getItem.bind(this);
 		this.setItem = this.setItem.bind(this);
+
+		this.keyPrefix = 'pigskin-';
 	}
 
 	/**
@@ -15,7 +17,7 @@ export default class extends BaseService {
 	 * @return {string | null}
 	 */
 	getItem(key) {
-		return localStorage.getItem(key);
+		return localStorage.getItem(this.keyPrefix + key);
 	}
 
 	/**
@@ -24,6 +26,6 @@ export default class extends BaseService {
 	 * @param value string value for the item
 	 */
 	setItem(key, value) {
-		localStorage.setItem(key, value);
+		localStorage.setItem(this.keyPrefix + key, value);
 	}
 };
