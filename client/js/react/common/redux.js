@@ -46,5 +46,5 @@ export default createStore((state, action) => {
 	}, {
 		// === default data ===
 		ajaxCount: 0,
-	}
+	}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
