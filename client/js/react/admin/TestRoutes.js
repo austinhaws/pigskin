@@ -1,5 +1,5 @@
 import React from "react";
-import webservice from "../webservice/webservice";
+import service from "../service/Service";
 
 export default class TestRoutes extends React.Component {
 
@@ -18,7 +18,7 @@ export default class TestRoutes extends React.Component {
 	}
 
 	callCreateAccount() {
-		webservice.account.create(this.callbackToOutput);
+		service.webservice.accountService.create(this.callbackToOutput);
 	}
 
 	changeAccountId(e) {
@@ -26,7 +26,7 @@ export default class TestRoutes extends React.Component {
 	}
 
 	callGetAccount() {
-		webservice.account.get(this.state.accountId, this.callbackToOutput);
+		service.webservice.accountService.get(this.state.accountId, this.callbackToOutput);
 	}
 
 	callbackToOutput(data) {

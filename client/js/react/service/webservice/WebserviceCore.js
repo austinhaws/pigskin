@@ -1,8 +1,11 @@
 import axios from "axios";
 
+// not a service, but a utility class, so don't inherit from BaseService
+// don not import this unless you are a webservice service
 export default new class {
 	constructor() {
-		this.baseUrl = '/pigskin/server/public/';
+		// get from index.html so that it can be changed on the fly without webpack when deployed
+		this.baseUrl = globals.baseUrl;
 	}
 
 	callCallback(callback) {
