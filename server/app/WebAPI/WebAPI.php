@@ -5,6 +5,7 @@ namespace App\WebAPI;
 use App\WebAPI\Services\AccountService;
 use App\WebAPI\Services\ChartService;
 use App\WebAPI\Services\GuidService;
+use App\WebAPI\Services\JsonService;
 use App\WebAPI\Services\NameService;
 use App\WebAPI\Services\PhraseService;
 use App\WebAPI\Services\PlayerService;
@@ -19,6 +20,8 @@ class WebAPI {
 	public $chartService;
 	/** @var GuidService guid service */
 	public $guidService;
+	/** @var JsonService json service */
+	public $jsonService;
 	/** @var NameService name service */
 	public $nameService;
 	/** @var PhraseService phrase service */
@@ -37,6 +40,7 @@ class WebAPI {
 		$this->accountService = new AccountService($this);
 		$this->chartService = new ChartService($this);
 		$this->guidService = new GuidService($this);
+		$this->jsonService = new JsonService($this);
 		$this->nameService = new NameService($this);
 		$this->playerService = new PlayerService($this);
 		$this->phraseService = new PhraseService($this);

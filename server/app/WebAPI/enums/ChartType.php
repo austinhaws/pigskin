@@ -11,4 +11,7 @@ interface ChartType {
 
 	// starting age of a player
 	public const PLAYER_STARTING_AGE = 'Player Starting Age';
+
+	// what to roll for a rating's skill bonus roll
+	public const RATING_SKILL_BONUS_ROLL = 'Rating Skill Bonus Roll';
 }

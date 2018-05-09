@@ -5,10 +5,13 @@ namespace App\WebAPI\Services;
 use App\WebAPI\Enums\DBTable;
 use App\WebAPI\Enums\Rating;
 use App\WebAPI\Enums\Roster;
+use App\WebAPI\Models\Player;
 use Illuminate\Support\Facades\DB;
 
 class TeamService extends BaseService
 {
+	const NUMBER_STARTING_BOOSTS = 10;
+
 	/**
 	 * get an account
 	 *
@@ -17,7 +20,9 @@ class TeamService extends BaseService
 	 */
 	public function get($accountId)
 	{
-		return DB::table(DBTable::TEAM)->where('account_id', $accountId)->first();
+		$team = DB::table(DBTable::TEAM)->where('account_id', $accountId)->first();
+		$team->players = $this->webApi->jsonService->jsonToObjectArray($team->players, Player::class);
+		return $team;
 	}
 
 	/**
@@ -53,7 +58,7 @@ class TeamService extends BaseService
 			$this->fillRoster(Roster::SPECIAL_MINIMUM)
 		);
 
-		for ($i = 0; $i < 11; $i++) {
+		for ($i = 0; $i < TeamService::NUMBER_STARTING_BOOSTS; $i++) {
 			$this->webApi->playerService->boostPlayer($players[$this->webApi->rollService->roll(0, count($players) - 1)]);
 		}
 
