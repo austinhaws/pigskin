@@ -1,11 +1,8 @@
-import BaseService from "../BaseService";
 import webserviceCore from "./WebserviceCore";
 
-export default class extends BaseService {
+export default class {
 
-	constructor(service) {
-		super(service);
-
+	constructor() {
 		this.webserviceCore = webserviceCore;
 	}
 };

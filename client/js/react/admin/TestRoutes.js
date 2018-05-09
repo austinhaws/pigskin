@@ -18,7 +18,7 @@ export default class TestRoutes extends React.Component {
 	}
 
 	callCreateAccount() {
-		service.webservice.accountService.create(this.callbackToOutput);
+		service.webservice.accountWebservice.create(this.callbackToOutput);
 	}
 
 	changeAccountId(e) {
@@ -26,7 +26,7 @@ export default class TestRoutes extends React.Component {
 	}
 
 	callGetAccount() {
-		service.webservice.accountService.get(this.state.accountId, this.callbackToOutput);
+		service.webservice.accountWebservice.get(this.state.accountId, this.callbackToOutput);
 	}
 
 	callbackToOutput(data) {

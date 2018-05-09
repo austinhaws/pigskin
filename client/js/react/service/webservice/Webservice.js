@@ -5,6 +5,6 @@ export default class extends BaseService {
 	constructor(service) {
 		super(service);
 
-		this.accountService = new AccountWebservice(service);
+		this.accountWebservice = new AccountWebservice();
 	}
 };

@@ -3,6 +3,8 @@ import {createStore} from "redux";
 import _ from "lodash";
 import clone from "clone";
 
+// use ReduxService instead of calling or importing this stuff directly
+
 function objectAtPath(obj, path) {
 	return path
 		.split('\.')
@@ -46,5 +48,6 @@ export default createStore((state, action) => {
 	}, {
 		// === default data ===
 		ajaxCount: 0,
+		account: undefined,
 	}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
