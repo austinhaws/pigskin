@@ -58,6 +58,16 @@ body {
 	font-size: 40px;
 	color: white;
 }
+#account-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 50px;
+	width: 150px;
+	text-align: center;
+	line-height: 46px;
+	color: white;
+}
 .subtitle {
 	color: white;
 	font-size: 20px;

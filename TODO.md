@@ -1,5 +1,6 @@
-* \[ ] Service Tests - make sure they're all getting tested
-* \[ ] Team Service - make sure enough players are getting boosted 
+* \[ ] load account when app starts
+  * \[ ] create account js module for front end that gets current account from localstorage if it exists
+  * \[ ] if doesn't exist then ajax to create an account (and team) to server 
 
 Team Page
 * list of players
@@ -62,6 +63,7 @@ Go to draft
 later
 * can join a league to play league games and to have leagues play against other leagues to get league points and awards
 * like dragon city, have lots of things to go do and always gaining new things so there's always progress
+* playing against other players does not have both players online at same time, you just end up playing their team controlled by a computer. teams have a ranking based on their win/loss and you play against teams that have a similar win/loss as you.
 
 
 TO Run Unit Tests
