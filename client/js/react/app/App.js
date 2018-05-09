@@ -7,6 +7,7 @@ import Admin from "../admin/Admin";
 import Menu from "./Menu";
 import Team from "../team/Team";
 import service from "../service/Service";
+import {MuiThemeProvider} from "material-ui";
 
 class App extends React.Component {
 
@@ -23,16 +24,18 @@ class App extends React.Component {
 		const comboProps = Object.assign({}, this.props, {service: this.service});
 
 		return (
-			<React.Fragment>
-				<div id="title" className="chalk-font">Pig Skin</div>
-				<div id="account-container">{this.props.account ? this.props.account.phrase : ''}</div>
-				<Menu {...this.props}/>
-				<Switch>
-					<Route path="/admin" render={() => <Admin {...comboProps}/>}/>
-					<Route path="/team" render={() => <Team {...comboProps}/>}/>
-					<Route render={() => <div>no matching route</div>}/>
-				</Switch>
-			</React.Fragment>
+			<MuiThemeProvider>
+				<React.Fragment>
+					<div id="title" className="chalk-font">Pig Skin</div>
+					<div id="account-container">{this.props.account ? this.props.account.phrase : ''}</div>
+					<Menu {...this.props}/>
+					<Switch>
+						<Route path="/admin" render={() => <Admin {...comboProps}/>}/>
+						<Route path="/team" render={() => <Team {...comboProps}/>}/>
+						<Route render={() => <div>no matching route</div>}/>
+					</Switch>
+				</React.Fragment>
+			</MuiThemeProvider>
 		);
 	}
 

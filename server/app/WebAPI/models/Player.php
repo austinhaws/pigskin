@@ -4,6 +4,9 @@ namespace App\WebAPI\Models;
 
 class Player extends BaseModel
 {
+	/** @var string generated name for player */
+	public $name;
+
 	/** @var string Position enum */
 	public $position;
 

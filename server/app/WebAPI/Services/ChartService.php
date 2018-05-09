@@ -39,7 +39,8 @@ class ChartService extends BaseService
 	 */
 	private function rollChart($chartDetails) {
 		// sort by maximum ascending
-		$chartDetailsSorted = $chartDetails->sort(function ($a, $b) {
+		$chartDetailsSorted = $chartDetails->all();
+		usort($chartDetailsSorted, function ($a, $b) {
 			return $b->maximum - $a->maximum;
 		});
 

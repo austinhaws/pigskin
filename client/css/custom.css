@@ -7,51 +7,11 @@
 }
 #app {
 	background-image: url('../img/grasshalf.png');
-	width: 938px;
-	height: 1080px;
-	margin: 0 auto;
-	top: 30px;
-	position: relative;
-}
-#app-wrapper {
-	width: 998px;
-	height: 1140px;
-	margin: 0 auto;
-	position: relative;
-}
-#chalk-border-top, #chalk-border-bottom, #chalk-border-left, #chalk-border-right {
-	background-image: url('../img/chalk-border.png');
-	position: absolute;
-}
-#chalk-border-top, #chalk-border-bottom {
-	height: 998px;
-	width: 30px;
-	left: 484px;
-	-webkit-transform: rotate(90deg);
-	transform: rotate(90deg);
-	z-index: 100;
-}
-#chalk-border-top {
-	top: -484px;
-}
-#chalk-border-bottom {
-	bottom: -484px;
-}
-#chalk-border-left, #chalk-border-right {
-	top: 0;
-	height: 100%;
-	width: 30px;
-	z-index: 50;
-}
-#chalk-border-left {
-	left: 0;
-}
-#chalk-border-right {
-	right: 0;
 }
 
 body {
 	background-color: black;
+	font-family: 'Roboto', sans-serif;
 }
 #title {
 	text-align: center;
@@ -98,4 +58,10 @@ body {
 	position: absolute;
 	top: 0;
 	width: 100%;
+}
+table {
+	table-layout: auto !important;
+}
+table th {
+	cursor: pointer;
 }

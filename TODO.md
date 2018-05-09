@@ -1,6 +1,4 @@
-* \[ ] load account when app starts
-  * \[ ] create account js module for front end that gets current account from localstorage if it exists
-  * \[ ] if doesn't exist then ajax to create an account (and team) to server 
+why all created players are age 25?
 
 Team Page
 * list of players

@@ -12,6 +12,7 @@ class PlayerServiceTest extends BaseServiceTest
     	$this->webApiTest->rollService->setRolls([RollServiceMock::INFINITE_WILD_CARD]);
     	$player = $this->webApiTest->playerService->createPlayer(Position::QUARTER_BACK);
     	$this->assertNotNull($player->age);
+    	$this->assertTrue(strlen($player->name) > 0);
     }
 
     public function testBoostPlayer() {
@@ -23,8 +24,8 @@ class PlayerServiceTest extends BaseServiceTest
     	$this->assertEquals(0, $player->specialSkill);
 
     	$this->webApiTest->playerService->boostPlayer($player);
-    	$this->assertEquals(1, $player->runSkill);
-    	$this->assertEquals(2, $player->passSkill);
+    	$this->assertEquals(2, $player->runSkill);
+    	$this->assertEquals(1, $player->passSkill);
     	$this->assertEquals(0, $player->specialSkill);
 	}
 }
