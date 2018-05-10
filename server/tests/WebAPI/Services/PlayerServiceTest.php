@@ -21,11 +21,11 @@ class PlayerServiceTest extends BaseServiceTest
     	$player = $this->webApiTest->playerService->createPlayer(Position::DEFENSIVE_LINE);
     	$this->assertEquals(1, $player->runSkill);
     	$this->assertEquals(1, $player->passSkill);
-    	$this->assertEquals(0, $player->specialSkill);
+    	$this->assertEquals(0, $player->kickSkill);
 
     	$this->webApiTest->playerService->boostPlayer($player);
     	$this->assertEquals(2, $player->runSkill);
     	$this->assertEquals(1, $player->passSkill);
-    	$this->assertEquals(0, $player->specialSkill);
+    	$this->assertEquals(0, $player->kickSkill);
 	}
 }

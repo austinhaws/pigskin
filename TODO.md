@@ -1,16 +1,14 @@
-why all created players are age 25?
-
 Team Page
 * list of players
-  * shows
+  * \[√] shows
     * name
     * run
     * pass
-    * special
+    * kick
     * injury
     * age
     * rating
-  * sort by any column
+  * \[√] sort by any column
   * lineups menu
   * each lineup allows only certain players: have to have
     * offense

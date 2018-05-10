@@ -18,7 +18,7 @@ const SortColumns = {
 	COLUMN_AGE: 'age',
 	COLUMN_PASS_SKILL: 'passSkill',
 	COLUMN_RUN_SKILL: 'runSkill',
-	COLUMN_SPECIAL_SKILL: 'specialSkill',
+	COLUMN_KICK_SKILL: 'kickSkill',
 	COLUMN_INJURY: 'injury',
 };
 
@@ -79,7 +79,7 @@ export default class Team extends React.Component {
 							<TableHeaderColumn>Age</TableHeaderColumn>
 							<TableHeaderColumn>Pass</TableHeaderColumn>
 							<TableHeaderColumn>Run</TableHeaderColumn>
-							<TableHeaderColumn>Special</TableHeaderColumn>
+							<TableHeaderColumn>Kick</TableHeaderColumn>
 							<TableHeaderColumn>Injury</TableHeaderColumn>
 						</TableRow>
 					</TableHeader>
@@ -93,7 +93,7 @@ export default class Team extends React.Component {
 								<TableRowColumn>{player.age}</TableRowColumn>
 								<TableRowColumn>{player.passSkill}</TableRowColumn>
 								<TableRowColumn>{player.runSkill}</TableRowColumn>
-								<TableRowColumn>{player.specialSkill}</TableRowColumn>
+								<TableRowColumn>{player.kickSkill}</TableRowColumn>
 								<TableRowColumn>{player.injury}</TableRowColumn>
 							</TableRow>
 						)) : undefined

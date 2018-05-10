@@ -26,21 +26,21 @@ class PlayerService extends BaseService
 		$player->rating = $ratingUse;
 		$player->passSkill = $this->startingSkill($position, 'pass');
 		$player->runSkill = $this->startingSkill($position, 'run');
-		$player->specialSkill = $this->startingSkill($position, 'special');
+		$player->kickSkill = $this->startingSkill($position, 'kick');
 		$player->age = $this->webApi->chartService->playerAge();
 
 		return $player;
 	}
 
 	private function startingSkill($position, $skill) {
-		$isSpecial = array_search($position, Roster::SPECIAL_MINIMUM) !== false;
+		$isKick = array_search($position, Roster::KICK_MINIMUM) !== false;
 		switch ($skill) {
 			case 'run':
 			case 'pass':
-				$value = $isSpecial ? 0 : 1;
+				$value = $isKick ? 0 : 1;
 				break;
-			case 'special':
-				$value = $isSpecial ? 1 : 0;
+			case 'kick':
+				$value = $isKick ? 1 : 0;
 				break;
 			default:
 				throw new \RuntimeException('startingSkill: Unknown skill - ' . $skill);
@@ -52,7 +52,7 @@ class PlayerService extends BaseService
 	 * @param $player Player the player to boost
 	 */
 	public function boostPlayer($player) {
-		// roll run/pass/special chart result
+		// roll run/pass/kick chart result
 		$skill = $this->webApi->chartService->playerUpgradeType($player->position);
 
 		// give bonus to that skill based on player rating

@@ -17,7 +17,7 @@ class TeamServiceTest extends BaseServiceTest
 		$teamPositions = array_merge(
 			Roster::OFFENSE_MINIMUM,
 			Roster::DEFENSE_MINIMUM,
-			Roster::SPECIAL_MINIMUM
+			Roster::KICK_MINIMUM
 		);
 
 
@@ -27,12 +27,14 @@ class TeamServiceTest extends BaseServiceTest
     	// count up boosted stats and make sure they add up to 10
     	$numberUpgrades = array_reduce($team->players, function ($total, $player) {
     		if ($player->position === Position::KICKER || $player->position === Position::PUNTER) {
-				$total += $player->specialSkill - 1;
+				$total += $player->kickSkill - 1;
 			} else {
     			$total += $player->runSkill - 1 + $player->passSkill - 1;
 			}
 			return $total;
 		}, 0);
     	$this->assertEquals(TeamService::NUMBER_STARTING_BOOSTS, $numberUpgrades);
+
+		$this->assertEquals(3, count($team->lineups));
     }
 }
