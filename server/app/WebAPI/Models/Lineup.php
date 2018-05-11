@@ -9,4 +9,7 @@ class Lineup extends BaseModel
 
 	/** @var String[] guids of the players on this lineup; must be valid guids from the team's player list */
 	public $playerGuids;
+
+	/** @var String PositionType... enum of type of positions that are in this lineup */
+	public $positionType;
 }

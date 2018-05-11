@@ -1,0 +1,15 @@
+export default {
+	QUARTER_BACK: 'QB',
+	WIDE_RECEIVER: 'WR',
+	HALF_BACK: 'HB',
+	FULL_BACK: 'FB',
+	TIGHT_END: 'TE',
+	OFFENSIVE_LINE: 'OL',
+
+	DEFENSIVE_LINE: 'DL',
+	LINE_BACKER: 'LB',
+	CORNER_BACK: 'CB',
+	SAFETY: 'S',
+	PUNTER: 'P',
+	KICKER: 'K',
+};

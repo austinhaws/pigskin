@@ -3,6 +3,7 @@
 namespace App\WebAPI\Test\Services;
 
 use App\WebAPI\Enums\Position;
+use App\WebAPI\Enums\PositionType;
 use App\WebAPI\Enums\Roster;
 use App\WebAPI\Services\Mock\RollServiceMock;
 use App\WebAPI\Services\TeamService;
@@ -36,5 +37,12 @@ class TeamServiceTest extends BaseServiceTest
     	$this->assertEquals(TeamService::NUMBER_STARTING_BOOSTS, $numberUpgrades);
 
 		$this->assertEquals(3, count($team->lineups));
+
+		$lineupTypes = array_map(function ($lineup) {
+			return $lineup->positionType;
+		}, $team->lineups);
+		$this->assertNotSame(false, array_search(PositionType::KICK, $lineupTypes));
+		$this->assertNotSame(false, array_search(PositionType::OFFENSE, $lineupTypes));
+		$this->assertNotSame(false, array_search(PositionType::DEFENSE, $lineupTypes));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\WebAPI\Enums;
 
-interface Roster {
+class Roster {
 
 	public const MAX_ROSTER_SIZE = 40;
 
@@ -34,8 +34,29 @@ interface Roster {
 		Position::DEFENSIVE_LINE,
 	];
 
-	public const SPECIAL_MINIMUM = [
+	public const KICK_MINIMUM = [
 		Position::PUNTER,
 		Position::KICKER,
 	];
+
+	/**
+	 * @param $positionType String PositionType::... enum
+	 * @return array
+	 */
+	public static function rosterForPositionType($positionType) {
+		switch ($positionType) {
+			case PositionType::KICK:
+				$roster = Roster::KICK_MINIMUM;
+				break;
+			case PositionType::OFFENSE:
+				$roster = Roster::OFFENSE_MINIMUM;
+				break;
+			case PositionType::DEFENSE:
+				$roster = Roster::DEFENSE_MINIMUM;
+				break;
+			default:
+				throw new \RuntimeException("Unknown position type: $positionType");
+		}
+		return $roster;
+	}
 }

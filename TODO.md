@@ -1,3 +1,16 @@
+\[ ] change segemented button to be a tab control since that's what it's really doing and material UI has one 
+
+lineups don't matter until after the draft since don't have enough players to change lineup
+so next thing to do is Draft!
+- \[ ] DB structure to track a draft
+- \[ ] what if multiple players? just computers for first level
+- \[ ] each step of draft is a new view component?
+
+
+need a way to have javascript enums match php enums?
+- in jest tests, export php enums and load them and test that they match the javascript ones
+- by manually typing javascript enums then autocomplete will work
+
 Team Page
 * list of players
   * \[√] shows

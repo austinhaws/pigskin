@@ -107,6 +107,7 @@ class TeamService extends BaseService
 	private function createLineup($players, $positionType) {
 		$lineup = new LineUp();
 		$lineup->name = $positionType;
+		$lineup->positionType = $positionType;
 		$roster = Roster::rosterForPositionType($positionType);
 
 		shuffle($players);

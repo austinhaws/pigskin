@@ -15,7 +15,7 @@ class Player extends BaseModel
 	/** @var int bonus on pass plays */
 	public $passSkill;
 	/** @var int bonus on special teams (kickers, punters) */
-	public $specialSkill;
+	public $kickSkill;
 
 	/** @var string how good this player is overall (A-F) */
 	public $rating;

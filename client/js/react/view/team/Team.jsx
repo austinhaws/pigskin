@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from "material-ui";
+import SegmentedButton from "../../components/SegmentedButton.jsx";
+import Enum from '../../../enum/Enum.js';
 
 const defaultProps = {
 	account: undefined,
@@ -29,6 +31,7 @@ export default class Team extends React.Component {
 		this.state = {
 			sortColumn: SortColumns.COLUMN_NAME,
 			sortDirection: 1,
+			lineupType: Enum.positionType.OFFENSE,
 		};
 
 		this.onTeamCellClick = this.onTeamCellClick.bind(this);
@@ -63,9 +66,14 @@ export default class Team extends React.Component {
 			return sortValue * this.state.sortDirection;
 
 		});
-
+		const filterRoster = Enum.roster.rosterForPositionType(this.state.lineupType);
+		const filteredPlayers = this.props.account ? this.props.account.team.players.filter(player => filterRoster.includes(player.position)) : [];
 		return (
 			<React.Fragment>
+				<SegmentedButton
+					value={this.state.lineupType}
+					options={Object.values(Enum.positionType)}
+					onChange={value => this.setState({lineupType: value})} />
 				<Table
 					className="team-table"
 					fixedHeader={false}
@@ -85,7 +93,7 @@ export default class Team extends React.Component {
 					</TableHeader>
 					<TableBody displayRowCheckbox={false}>
 					{
-						this.props.account ? this.props.account.team.players.map(player => (
+						filteredPlayers.map(player => (
 							<TableRow key={player.guid}>
 								<TableRowColumn>{player.name}</TableRowColumn>
 								<TableRowColumn>{player.position}</TableRowColumn>
@@ -96,7 +104,7 @@ export default class Team extends React.Component {
 								<TableRowColumn>{player.kickSkill}</TableRowColumn>
 								<TableRowColumn>{player.injury}</TableRowColumn>
 							</TableRow>
-						)) : undefined
+						))
 					}
 					</TableBody>
 				</Table>

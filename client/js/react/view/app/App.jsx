@@ -1,12 +1,12 @@
 import React from "react";
 import {render} from "react-dom";
 import {connect, Provider} from "react-redux";
-import redux from "../common/redux";
+import redux from "../../common/redux";
 import {BrowserRouter, Route, Switch, withRouter} from "react-router-dom";
-import Admin from "../admin/Admin";
-import Menu from "./Menu";
-import Team from "../team/Team";
-import service from "../service/Service";
+import Admin from "../admin/Admin.jsx";
+import Menu from "./Menu.jsx";
+import Team from "../team/Team.jsx";
+import service from "../../service/Service";
 import {MuiThemeProvider} from "material-ui";
 
 class App extends React.Component {

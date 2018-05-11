@@ -1,5 +1,5 @@
 import React from "react";
-import service from "../service/Service";
+import service from "../../service/Service";
 
 export default class TestRoutes extends React.Component {
 
