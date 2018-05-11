@@ -1,5 +1,3 @@
-\[ ] change segemented button to be a tab control since that's what it's really doing and material UI has one 
-
 lineups don't matter until after the draft since don't have enough players to change lineup
 so next thing to do is Draft!
 - \[ ] DB structure to track a draft

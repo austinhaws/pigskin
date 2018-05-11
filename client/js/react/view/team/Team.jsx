@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from "material-ui";
-import SegmentedButton from "../../components/SegmentedButton.jsx";
+import {Tab, Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, Tabs} from "material-ui";
 import Enum from '../../../enum/Enum.js';
 
 const defaultProps = {
@@ -70,10 +69,11 @@ export default class Team extends React.Component {
 		const filteredPlayers = this.props.account ? this.props.account.team.players.filter(player => filterRoster.includes(player.position)) : [];
 		return (
 			<React.Fragment>
-				<SegmentedButton
-					value={this.state.lineupType}
-					options={Object.values(Enum.positionType)}
-					onChange={value => this.setState({lineupType: value})} />
+				<Tabs onChange={value => this.setState({lineupType: value})}>
+					{Object.values(Enum.positionType).map(positionType => (
+						<Tab key={positionType} label={positionType} selected={this.state.lineupType === positionType} value={positionType} />
+					))}
+				</Tabs>
 				<Table
 					className="team-table"
 					fixedHeader={false}

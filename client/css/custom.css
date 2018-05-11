@@ -42,18 +42,20 @@ body {
 	justify-content: space-around;
 }
 .menu-item {
-	background-image: url('../img/football.png');
+	background-image: url('../img/football-nolaces.png');
 	background-size: contain;
 	width: 100px;
 	height: 60px;
 	position: relative;
+	line-height: 55px;
 }
 .menu-item:hover {
-	width: 124px;
+	width: 123px;
 	height: 72px;
 	margin: -6px -12px;
 	cursor: pointer;
 	font-size: 1.2em;
+	line-height: 65px;
 }
 .menu-item .menu-item-title {
 	color: white;
