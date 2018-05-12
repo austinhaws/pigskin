@@ -64,7 +64,7 @@ CREATE TABLE `name` (
 
 CREATE TABLE `team` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`account_id` int(11) NOT NULL,
+	`account_id` int(11),
 	`name` varchar(500) NOT NULL,
 	`players` text NOT NULL,
 	`lineups` text,
@@ -1228,7 +1228,6 @@ VALUES
 	(1150,'noun','Nerve'),
 	(1151,'noun','Net'),
 	(1152,'noun','Network'),
-	(1153,'noun','New York'),
 	(1154,'noun','News'),
 	(1155,'noun','Newspaper'),
 	(1156,'noun','Night'),

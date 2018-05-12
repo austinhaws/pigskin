@@ -3,6 +3,7 @@
 namespace App\WebAPI\Services;
 
 use App\WebAPI\Enums\DBTable;
+use App\WebAPI\Enums\TeamType;
 use Illuminate\Support\Facades\DB;
 
 class AccountService extends BaseService
@@ -37,7 +38,7 @@ class AccountService extends BaseService
 		$accountId = DB::table(DBTable::ACCOUNT)->insertGetId(['phrase' => $phrase, 'guid' => $guid]);
 
 		// also create a new team for the account
-		$this->webApi->teamService->create($accountId);
+		$this->webApi->teamService->create($accountId, TeamType::PLAYER);
 
 		return $this->get($phrase);
 	}

@@ -1,17 +1,17 @@
 ## Draft
 
 ### checklist for work
-- \[ ] account DB
-	- \[ ] add cpu/stage columns to account
-	- \[ ] Update account creation to set cpu/stage fields
-	- \[ ] unit test account changes
+- \[X] team DB
+	- \[X] add cpu/stage columns to team
+	- \[X] Update team creation to set cpu/stage fields
+	- \[X] unit test team changes
 - \[ ] DB Table for Draft object
 	- \[ ] create table
 - \[ ] server layers work
 	- \[ ] create DAO - Create, Read, Update (no delete)
 	- \[ ] create service
 		- \[ ] create 
-	- \[ ] get/create draft for account id
+	- \[ ] get/create draft for team id
 	- \[ ] pick player in draft web service call
 	- \[ ] routes for webservice calls
 	- \[ ] unittest webservice calls
@@ -23,9 +23,9 @@
 	- \[ ] pass through to webservice calls
 - \[ ] draft page (not all draft picks picked - remember to show all computer picks with timer before going to next page)
 	- \[ ] order & available players
-	- \[ ] account teams viewing
+	- \[ ] teams viewing
 - \[ ] post draft page (all draft picks picked and have shown all computer draft picks)
-	- \[ ] account picks lists
+	- \[ ] team picks lists
 	- \[ ] calculate draft pick scores
 	- \[ ] done draft button
 
@@ -45,28 +45,28 @@
 - Draft DB table
 	- id
 	- availablePlayers (json)
-	- draft sequence (json): [{accountGuid: , playerPickedGuid: false}, {accountGuid: , playerPickedGuid: false}, ...] in order of picks, repeated for # of rounds of draft
-- draft_x_account DB table: joining to get accounts involved with the draft
+	- draft sequence (json): [{teamGuid: , playerPickedGuid: false}, {teamGuid: , playerPickedGuid: false}, ...] in order of picks, repeated for # of rounds of draft
+- draft_x_team DB table: joining to get teams involved with the draft
 	- draft sequence has this info, repeated and in json, so it's going to be easier to just create a join table
-- add "cpu" flag to account record
-- add "stage" flag to account and default to "draft"
+- add "cpu" flag to team record
+- add "stage" flag to team and default to "draft"
 	
 ### Draft WebService
-- /draft/{accountGuid} : gets/creates the current draft; check that the account is in "draft" state before creating
+- /draft/{accountGuid}/{teamId} : gets/creates the current draft; check that the team is in "draft" state before creating
 - /draft/pick : perform a player pick and pick all computer picks until the next player
-	- post fields: account guid, draft player guid
+	- post fields: account guid, team guid, draft player guid
 	- verifies the account is part of that draft
-	- add the chosen player to the account's roster
+	- add the chosen player to the team's roster
 	- remove the player from the draft's available players roster
 	- add picked player to player sequence in draft
 	- perform computer picks until next player pick
 	- update draft DB object
 	- return updated draft object
 - /draft/calculatePlayer : calcualtes scores based on rating for a new drafted player
-	- post fields: accountGuid, playerGuid
+	- post fields: accountGuid, teamGuid, playerGuid
 	- calculates scores for that player based on its rating and returns the results
 - /draft/complete
-	- post fields: accountGuid
+	- post fields: accountGuid, teamGuid
 	- verifies all players have been calculated
 	- sets account's state to season
 
@@ -90,11 +90,11 @@
 - timer runs in background and shows the next pick every few seconds until it is the player's turn and then the timer turns off and waits for the player to pick
 
 ### Post Draft View
-- menu at top for accounts, default to yours, option for all
-- shows account players picked and in what order
+- menu at top for teams, default to yours, option for all
+- shows team players picked and in what order
 	- name, position, age, rating
-	- button next to player to compute scores (for your account)
-	- other accounts show scores of taken players
+	- button next to player to compute scores (for your team)
+	- other teams show scores of taken players
 	- button press then calls the server to compute base scores for the player based on their rating
 - draft not finished until all player scores computed
 	

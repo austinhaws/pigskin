@@ -6,6 +6,8 @@ use App\WebAPI\Enums\DBTable;
 use App\WebAPI\Enums\PositionType;
 use App\WebAPI\Enums\Rating;
 use App\WebAPI\Enums\Roster;
+use App\WebAPI\Enums\TeamStage;
+use App\WebAPI\Enums\TeamType;
 use App\WebAPI\Models\Lineup;
 use App\WebAPI\Models\Player;
 use Illuminate\Support\Facades\DB;
@@ -32,10 +34,16 @@ class TeamService extends BaseService
 	 * create a new account
 	 *
 	 * @param $accountId int account that owns the team (for now one team per account)
+	 * @param $teamType string TeamType... enum is this team a CPU controlled team (no account)
 	 * @return object the created account
 	 */
-	public function create($accountId)
+	public function create($accountId, $teamType)
 	{
+		if ($accountId && $teamType === TeamType::CPU) {
+			throw new \RuntimeException('CPU teams can not have an account');
+		} else if (!$accountId && $teamType === TeamType::PLAYER) {
+			throw new \RuntimeException('Non-CPU teams must have an account');
+		}
 		$name = $this->webApi->phraseService->getRandomPhrase();
 
 		$players = $this->createPlayers();
@@ -45,7 +53,9 @@ class TeamService extends BaseService
 			'account_id' => $accountId,
 			'name' => $name,
 			'players' => json_encode($players),
-			'lineups' => json_encode($lineups)
+			'lineups' => json_encode($lineups),
+			'team_type' => $teamType,
+			'stage' => TeamStage::DRAFT,
 		]);
 		return $this->get($accountId);
 	}

@@ -5,6 +5,8 @@ namespace App\WebAPI\Test\Services;
 use App\WebAPI\Enums\Position;
 use App\WebAPI\Enums\PositionType;
 use App\WebAPI\Enums\Roster;
+use App\WebAPI\Enums\TeamStage;
+use App\WebAPI\Enums\TeamType;
 use App\WebAPI\Services\Mock\RollServiceMock;
 use App\WebAPI\Services\TeamService;
 
@@ -22,8 +24,9 @@ class TeamServiceTest extends BaseServiceTest
 		);
 
 
-		$team = $this->webApiTest->teamService->create($account->id);
+		$team = $this->webApiTest->teamService->create($account->id, TeamType::PLAYER);
     	$this->assertEquals(count($teamPositions), count($team->players));
+    	$this->assertEquals(TeamStage::DRAFT, $team->stage);
 
     	// count up boosted stats and make sure they add up to 10
     	$numberUpgrades = array_reduce($team->players, function ($total, $player) {
@@ -45,4 +48,31 @@ class TeamServiceTest extends BaseServiceTest
 		$this->assertNotSame(false, array_search(PositionType::OFFENSE, $lineupTypes));
 		$this->assertNotSame(false, array_search(PositionType::DEFENSE, $lineupTypes));
     }
+
+    public function testCPU() {
+		$this->webApiTest->rollService->setRolls([RollServiceMock::INFINITE_WILD_CARD]);
+		$team = $this->webApiTest->teamService->create(null, TeamType::CPU);
+		$this->assertEquals(TeamType::CPU, $team->team_type);
+
+		$account = $this->webApiTest->accountService->create();
+		$team = $this->webApiTest->teamService->create($account->id, TeamType::PLAYER);
+		$this->assertEquals(TeamType::PLAYER, $team->team_type);
+	}
+
+	public function testTeamCreateExceptions() {
+		$this->webApiTest->rollService->setRolls([RollServiceMock::INFINITE_WILD_CARD]);
+
+		$account = $this->webApiTest->accountService->create();
+		try {
+			$this->webApiTest->teamService->create($account->id, TeamType::CPU);
+		} catch (\RuntimeException $exception) {
+			$this->assertEquals('CPU teams can not have an account', $exception->getMessage());
+		}
+
+		try {
+			$this->webApiTest->teamService->create(null, TeamType::PLAYER);
+		} catch (\RuntimeException $exception) {
+			$this->assertEquals('Non-CPU teams must have an account', $exception->getMessage());
+		}
+	}
 }
