@@ -1,12 +1,12 @@
 ## Draft
 
 ### checklist for work
-- \[X] team DB
-	- \[X] add cpu/stage columns to team
-	- \[X] Update team creation to set cpu/stage fields
-	- \[X] unit test team changes
-- \[ ] DB Table for Draft object
-	- \[ ] create table
+- \[√] team DB
+	- \[√] add cpu/stage columns to team
+	- \[√] Update team creation to set cpu/stage fields
+	- \[√] unit test team changes
+- \[√] DB Table for Draft object
+	- \[√] create table
 - \[ ] server layers work
 	- \[ ] create DAO - Create, Read, Update (no delete)
 	- \[ ] create service
