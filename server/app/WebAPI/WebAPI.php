@@ -3,7 +3,9 @@
 namespace App\WebAPI;
 
 use App\WebAPI\Services\AccountService;
-use App\WebAPI\Services\ChartService;
+use App\WebAPI\Services\Chart\ChartService;
+use App\WebAPI\Services\Draft\DraftCreateService;
+use App\WebAPI\Services\Draft\DraftService;
 use App\WebAPI\Services\GuidService;
 use App\WebAPI\Services\JsonService;
 use App\WebAPI\Services\NameService;
@@ -34,6 +36,10 @@ class WebAPI {
 	public $rollService;
 	/** @var TeamService team service */
 	public $teamService;
+	/** @var DraftService */
+	public $draftService;
+	/** @var DraftCreateService  */
+	public $draftCreateService;
 
 	public function __construct()
 	{
@@ -47,5 +53,7 @@ class WebAPI {
 		$this->responseService = new ResponseService($this);
 		$this->rollService = new RollService($this);
 		$this->teamService = new TeamService($this);
+		$this->draftCreateService = new DraftCreateService($this);
+		$this->draftService = new DraftService($this);
 	}
 }

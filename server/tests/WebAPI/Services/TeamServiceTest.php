@@ -52,11 +52,11 @@ class TeamServiceTest extends BaseServiceTest
     public function testCPU() {
 		$this->webApiTest->rollService->setRolls([RollServiceMock::INFINITE_WILD_CARD]);
 		$team = $this->webApiTest->teamService->create(null, TeamType::CPU);
-		$this->assertEquals(TeamType::CPU, $team->team_type);
+		$this->assertEquals(TeamType::CPU, $team->teamType);
 
 		$account = $this->webApiTest->accountService->create();
 		$team = $this->webApiTest->teamService->create($account->id, TeamType::PLAYER);
-		$this->assertEquals(TeamType::PLAYER, $team->team_type);
+		$this->assertEquals(TeamType::PLAYER, $team->teamType);
 	}
 
 	public function testTeamCreateExceptions() {

@@ -2,7 +2,7 @@
 
 namespace App\WebAPI\Enums;
 
-class Roster {
+class Roster extends BaseEnum {
 
 	public const MAX_ROSTER_SIZE = 40;
 
@@ -58,5 +58,10 @@ class Roster {
 				throw new \RuntimeException("Unknown position type: $positionType");
 		}
 		return $roster;
+	}
+
+	static function who()
+	{
+		return __CLASS__;
 	}
 }

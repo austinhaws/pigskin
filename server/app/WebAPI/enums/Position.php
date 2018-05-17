@@ -2,7 +2,7 @@
 
 namespace App\WebAPI\Enums;
 
-interface Position {
+class Position extends BaseEnum {
 	public const QUARTER_BACK = 'QB';
 	public const WIDE_RECEIVER = 'WR';
 	public const HALF_BACK = 'HB';
@@ -16,4 +16,9 @@ interface Position {
 	public const SAFETY = 'S';
 	public const PUNTER = 'P';
 	public const KICKER = 'K';
+
+	static function who()
+	{
+		return __CLASS__;
+	}
 }

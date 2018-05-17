@@ -21,7 +21,7 @@ CREATE TABLE draft (
 	id int(11) NOT NULL AUTO_INCREMENT,
 	available_players TEXT,
 	draft_sequence TEXT,
-	state NVARCHAR(10),
+	state NVARCHAR(500),
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `draft_id_uindex` (`id`)
 );

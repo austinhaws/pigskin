@@ -2,7 +2,12 @@
 
 namespace App\WebAPI\Enums;
 
-interface TeamType {
+class TeamType extends BaseEnum {
 	public const CPU = 'cpu';
 	public const PLAYER = 'player';
+
+	static function who()
+	{
+		return __CLASS__;
+	}
 }

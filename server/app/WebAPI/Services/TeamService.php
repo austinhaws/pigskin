@@ -2,6 +2,7 @@
 
 namespace App\WebAPI\Services;
 
+use App\WebAPI\Dao\TeamDao;
 use App\WebAPI\Enums\DBTable;
 use App\WebAPI\Enums\PositionType;
 use App\WebAPI\Enums\Rating;
@@ -10,23 +11,53 @@ use App\WebAPI\Enums\TeamStage;
 use App\WebAPI\Enums\TeamType;
 use App\WebAPI\Models\Lineup;
 use App\WebAPI\Models\Player;
+use App\WebAPI\Models\Team;
 use Illuminate\Support\Facades\DB;
 
 class TeamService extends BaseService
 {
 	const NUMBER_STARTING_BOOSTS = 10;
 
+	/** @var TeamDao */
+	private $teamDao;
+
+	public function __construct($webApi)
+	{
+		parent::__construct($webApi);
+		$this->teamDao = new TeamDao();
+	}
+
 	/**
 	 * get an account
 	 *
 	 * @param $accountId int account that owns the team (for now one team per account)
-	 * @return object the found team or null
+	 * @param null $teamId int if present, gets that team id
+	 * @return Team the found team or null
 	 */
-	public function get($accountId)
+	public function get($accountId, $teamId = null)
 	{
-		$team = DB::table(DBTable::TEAM)->where('account_id', $accountId)->first();
-		$team->players = $this->webApi->jsonService->jsonToObjectArray($team->players, Player::class);
-		$team->lineups = $this->webApi->jsonService->jsonToObjectArray($team->lineups, Lineup::class);
+		$query = DB::table(DBTable::TEAM);
+		if ($accountId) {
+			$query = $query->where('account_id', $accountId);
+		}
+		if ($teamId) {
+			$query = $query->where('id', $teamId);
+		}
+		$teamDB = $query->first();
+
+		$team = $teamDB ? new Team() : null;
+		if ($team) {
+			$team = new Team();
+			$team->id = $teamDB->id;
+			$team->accountId = $teamDB->account_id;
+			$team->guid = $teamDB->guid;
+			$team->name = $teamDB->name;
+			$team->players = $this->webApi->jsonService->jsonToObjectArray($teamDB->players, Player::class);
+			$team->lineups = $this->webApi->jsonService->jsonToObjectArray($teamDB->lineups, Lineup::class);
+			$team->teamType = $teamDB->team_type;
+			$team->stage = $teamDB->stage;
+		}
+
 		return $team;
 	}
 
@@ -35,7 +66,7 @@ class TeamService extends BaseService
 	 *
 	 * @param $accountId int account that owns the team (for now one team per account)
 	 * @param $teamType string TeamType... enum is this team a CPU controlled team (no account)
-	 * @return object the created account
+	 * @return Team the created team
 	 */
 	public function create($accountId, $teamType)
 	{
@@ -44,26 +75,24 @@ class TeamService extends BaseService
 		} else if (!$accountId && $teamType === TeamType::PLAYER) {
 			throw new \RuntimeException('Non-CPU teams must have an account');
 		}
-		$name = $this->webApi->phraseService->getRandomPhrase();
+		$team = new Team();
+		$team->accountId = $accountId;
+		$team->name = $this->webApi->phraseService->getRandomPhrase();
+		$team->players = $this->createPlayers();
+		$team->lineups = $this->createLineups($team->players);
+		$team->guid = $this->webApi->guidService->getNewGUID();
+		$team->stage = TeamStage::DRAFT;
+		$team->teamType = $teamType;
 
-		$players = $this->createPlayers();
-		$lineups = $this->createLineups($players);
+		$this->teamDao->insertTeam($team);
 
-		DB::table(DBTable::TEAM)->insert([
-			'account_id' => $accountId,
-			'name' => $name,
-			'players' => json_encode($players),
-			'lineups' => json_encode($lineups),
-			'team_type' => $teamType,
-			'stage' => TeamStage::DRAFT,
-		]);
-		return $this->get($accountId);
+		return $this->get($accountId, $team->id);
 	}
 
 	/**
 	 * create the players for a new team
 	 *
-	 * @return array of player objects
+	 * @return Player[]
 	 */
 	private function createPlayers()
 	{

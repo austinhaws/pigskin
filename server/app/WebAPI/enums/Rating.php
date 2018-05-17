@@ -2,7 +2,7 @@
 
 namespace App\WebAPI\Enums;
 
-abstract class Rating {
+class Rating extends BaseEnum {
 	/** @var string BEST! */
 	public const A = 'A';
 
@@ -30,5 +30,10 @@ abstract class Rating {
 			Rating::E,
 			Rating::F,
 		];
+	}
+
+	static function who()
+	{
+		return __CLASS__;
 	}
 }

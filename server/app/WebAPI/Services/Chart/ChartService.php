@@ -1,19 +1,23 @@
 <?php
 
-namespace App\WebAPI\Services;
+namespace App\WebAPI\Services\Chart;
 
 use App\WebAPI\Dao\ChartDao;
 use App\WebAPI\Enums\ChartType;
+use App\WebAPI\Services\BaseService;
 
 class ChartService extends BaseService
 {
 	/** @var ChartDao */
 	private $chartDao;
+	/** @var array chartType => filter => ChartDetail[] */
+	private $chartDetailCache;
 
 	public function __construct($webApi)
 	{
 		parent::__construct($webApi);
 		$this->chartDao = new ChartDao();
+		$this->chartDetailCache = new ChartDetailCacheService();
 	}
 
 	/**
@@ -77,9 +81,13 @@ class ChartService extends BaseService
 	 */
 	private function rollDetailChart($chartType, $filter = null)
 	{
-		$options = $this->chartDao->selectChartDetails($chartType, $filter);
-		$option = $this->rollChart($options);
-		return $option->value;
+		$options = $this->chartDetailCache->getCacheDetail($chartType, $filter);
+		if (!$options) {
+			$options = $this->chartDao->selectChartDetails($chartType, $filter);
+			$this->chartDetailCache->setCacheDetail($chartType, $filter, $options);
+		}
+
+		return $this->rollChart($options)->value;
 	}
 
 	/**
@@ -91,5 +99,15 @@ class ChartService extends BaseService
 	 */
 	public function lookupChartValue($chartType, $filter) {
 		return $this->rollDetailChart($chartType, $filter);
+	}
+
+	/**
+	 * determine random rating for a tier level
+	 *
+	 * @param $tier int tier of ratings
+	 * @return string Rating... A-F
+	 */
+	public function rollUpgradeRating($tier) {
+		return $this->rollDetailChart(ChartType::UPGRADE_RATING, $tier);
 	}
 }
