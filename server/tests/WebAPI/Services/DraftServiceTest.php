@@ -20,7 +20,13 @@ class DraftServiceTest extends BaseServiceTest
     	$this->assertEquals(count($draft->availablePlayers), DraftCreateService::DRAFT_SIZE);
     	$this->assertEquals(count($draft->draftSequence), (DraftCreateService::NUMBER_CPUS + 1) * 5);
     	$this->assertEquals($draft->state, DraftState::IN_PROGRESS);
+		$this->assertTrue($this->typeCompare->isGuid($draft->guid), $draft->guid);
 
+		// - draft sequence has guids for team ids
+		foreach ($draft->draftSequence as $sequence) {
+			$teamGuid = $sequence['teamGuid'];
+			$this->assertTrue($this->typeCompare->isGuid($teamGuid), $teamGuid);
+		}
 
     	// get an already existing draft
     	$draft2 = $this->webApiTest->draftService->getDraft($account->id, $team->id);

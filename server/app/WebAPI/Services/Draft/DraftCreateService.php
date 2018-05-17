@@ -41,6 +41,7 @@ class DraftCreateService extends BaseService
 	{
 		$draft = new Draft();
 		$draft->state = DraftState::IN_PROGRESS;
+		$draft->guid = $this->webApi->guidService->getNewGUID();
 
 		// create a pool of available players
 		$draft->availablePlayers = $this->createAvailablePlayers();
@@ -53,7 +54,10 @@ class DraftCreateService extends BaseService
 			$guids[] = $team->guid;
 			return $guids;
 		}, []);
-		$teamGuids[] = $playerTeamId;
+
+		$playerTeam = $this->webApi->teamService->get(null, $playerTeamId);
+		$teamGuids[] = $playerTeam->guid;
+
 		shuffle($teamGuids);
 		// cycle through 5 picks for each team
 		$draft->draftSequence = array_map(function ($teamGuid) {

@@ -205,3 +205,5 @@ it would be cool to eventually have players have a history of their seasons and 
 
 TO Run Unit Tests
 * ./vendor/bin/phpunit
+To Run composer
+composer update
