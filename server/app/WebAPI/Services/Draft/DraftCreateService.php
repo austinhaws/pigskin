@@ -2,34 +2,21 @@
 
 namespace App\WebAPI\Services\Draft;
 
-use App\WebAPI\Dao\ChartDao;
-use App\WebAPI\Dao\DraftDao;
 use App\WebAPI\Enums\DraftState;
 use App\WebAPI\Enums\Position;
 use App\WebAPI\Enums\TeamType;
 use App\WebAPI\Models\Draft;
+use App\WebAPI\Models\DraftSequence;
 use App\WebAPI\Models\Player;
 use App\WebAPI\Models\Team;
 use App\WebAPI\Services\BaseService;
 
 class DraftCreateService extends BaseService
 {
-	/** @var DraftDao */
-	private $draftDao;
-	/** @var ChartDao */
-	private $chartDao;
-
 	/** @var int how many CPUs to include in the draft with the real player */
 	const NUMBER_CPUS = 5;
 	/** @var int how many players to generate (6 teams * 5 picks + 15 unpicked bottom feeders) */
 	const DRAFT_SIZE = 45;
-
-	public function __construct($webApi)
-	{
-		parent::__construct($webApi);
-		$this->draftDao = new DraftDao();
-		$this->chartDao = new ChartDao();
-	}
 
 	/**
 	 * start a new draft with draft candidates and CPU players as needed
@@ -61,20 +48,21 @@ class DraftCreateService extends BaseService
 		shuffle($teamGuids);
 		// cycle through 5 picks for each team
 		$draft->draftSequence = array_map(function ($teamGuid) {
-			return ['teamGuid' => $teamGuid, 'pick' => null];
+			return new DraftSequence($teamGuid, null);
 		}, array_merge($teamGuids, $teamGuids, $teamGuids, $teamGuids, $teamGuids));
 
 		// insert draft object
-		$this->draftDao->insertDraft($draft);
+		$this->webApi->draftDao->insertDraft($draft);
 
 		// link cpuTeams to draft teams
 		foreach ($cpuTeams as $cpuTeam) {
-			$this->draftDao->insertDraftXTeam($draft->id, $cpuTeam->id);
+			$this->webApi->draftDao->insertDraftXTeam($draft->id, $cpuTeam->id);
 		}
-		$this->draftDao->insertDraftXTeam($draft->id, $playerTeamId);
+		$this->webApi->draftDao->insertDraftXTeam($draft->id, $playerTeamId);
 
 		// start picking CPU players' picks until hit a non-CPU player
-var_dump('Start picking CPU players: ' . $draft->id . ' : ' . $playerTeamId);
+		$this->webApi->draftCPUPickService->cpuPickPlayers($draft);
+
 		return $draft;
 	}
 

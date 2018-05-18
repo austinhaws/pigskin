@@ -1,4 +1,5 @@
 ## Draft
+\[ ] objects coming from DB should have their field converted to camel case and child object arrays filled as objects; and then going back to DB, childs should be changed to json; would Eloquent make this better? Probably be better to have a BaseModel that then has an abstract function for knowing which child fields need json conversion and their class, as well as public functions that convert to/from camel/snake case.
 
 ### checklist for work
 - \[√] team DB
@@ -11,7 +12,7 @@
 	- \[ ] create DAO - Create, Read, Update (no delete)
 	- \[ ] create service
 		- \[ ] create 
-	- \[ ] get/create draft for team id
+	- \[X] get/create draft for team id
 	- \[ ] pick player in draft web service call
 	- \[ ] routes for webservice calls
 	- \[ ] unittest webservice calls

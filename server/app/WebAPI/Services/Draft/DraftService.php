@@ -2,7 +2,6 @@
 
 namespace App\WebAPI\Services\Draft;
 
-use App\WebAPI\Dao\DraftDao;
 use App\WebAPI\Enums\TeamStage;
 use App\WebAPI\Models\Draft;
 use App\WebAPI\Models\Player;
@@ -10,15 +9,6 @@ use App\WebAPI\Services\BaseService;
 
 class DraftService extends BaseService
 {
-	/** @var DraftDao */
-	private $draftDao;
-
-	public function __construct($webApi)
-	{
-		parent::__construct($webApi);
-		$this->draftDao = new DraftDao();
-	}
-
 	/**
 	 * @param $accountId int
 	 * @param $teamId int
@@ -32,7 +22,7 @@ class DraftService extends BaseService
 			throw new \RuntimeException('Team is not in draft stage when getting draft');
 		}
 
-		$draftDB = $this->draftDao->selectDraftForTeam($team->id);
+		$draftDB = $this->webApi->draftDao->selectDraftForTeam($team->id);
 		if ($draftDB) {
 			$draft = new Draft();
 			$draft->id = $draftDB->id;

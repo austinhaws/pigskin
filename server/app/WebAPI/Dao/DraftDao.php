@@ -67,6 +67,9 @@ class DraftDao
 	 * @return \Illuminate\Support\Collection
 	 */
 	public function teamsForDraft($draftId) {
-		return DB::table(DBTable::TEAM)->join('draft_x_team', 'draft_id', '=', $draftId)->get();
+		return DB::table(DBTable::TEAM)
+			->join('draft_x_team', 'draft_x_team.team_id', '=', 'team.id')
+			->where('draft_x_team.draft_id', $draftId)
+			->get();
 	}
 }

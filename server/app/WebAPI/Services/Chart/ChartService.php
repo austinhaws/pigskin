@@ -2,21 +2,17 @@
 
 namespace App\WebAPI\Services\Chart;
 
-use App\WebAPI\Dao\ChartDao;
 use App\WebAPI\Enums\ChartType;
 use App\WebAPI\Services\BaseService;
 
 class ChartService extends BaseService
 {
-	/** @var ChartDao */
-	private $chartDao;
 	/** @var array chartType => filter => ChartDetail[] */
 	private $chartDetailCache;
 
 	public function __construct($webApi)
 	{
 		parent::__construct($webApi);
-		$this->chartDao = new ChartDao();
 		$this->chartDetailCache = new ChartDetailCacheService();
 	}
 
@@ -83,7 +79,7 @@ class ChartService extends BaseService
 	{
 		$options = $this->chartDetailCache->getCacheDetail($chartType, $filter);
 		if (!$options) {
-			$options = $this->chartDao->selectChartDetails($chartType, $filter);
+			$options = $this->webApi->chartDao->selectChartDetails($chartType, $filter);
 			$this->chartDetailCache->setCacheDetail($chartType, $filter, $options);
 		}
 

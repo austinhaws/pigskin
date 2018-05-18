@@ -2,7 +2,6 @@
 
 namespace App\WebAPI\Services;
 
-use App\WebAPI\Dao\TeamDao;
 use App\WebAPI\Enums\DBTable;
 use App\WebAPI\Enums\PositionType;
 use App\WebAPI\Enums\Rating;
@@ -17,15 +16,6 @@ use Illuminate\Support\Facades\DB;
 class TeamService extends BaseService
 {
 	const NUMBER_STARTING_BOOSTS = 10;
-
-	/** @var TeamDao */
-	private $teamDao;
-
-	public function __construct($webApi)
-	{
-		parent::__construct($webApi);
-		$this->teamDao = new TeamDao();
-	}
 
 	/**
 	 * get an account
@@ -84,7 +74,7 @@ class TeamService extends BaseService
 		$team->stage = TeamStage::DRAFT;
 		$team->teamType = $teamType;
 
-		$this->teamDao->insertTeam($team);
+		$this->webApi->teamDao->insertTeam($team);
 
 		return $this->get($accountId, $team->id);
 	}

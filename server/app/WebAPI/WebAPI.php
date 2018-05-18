@@ -2,8 +2,12 @@
 
 namespace App\WebAPI;
 
+use App\WebAPI\Dao\ChartDao;
+use App\WebAPI\Dao\DraftDao;
+use App\WebAPI\Dao\TeamDao;
 use App\WebAPI\Services\AccountService;
 use App\WebAPI\Services\Chart\ChartService;
+use App\WebAPI\Services\Draft\DraftCPUPickService;
 use App\WebAPI\Services\Draft\DraftCreateService;
 use App\WebAPI\Services\Draft\DraftService;
 use App\WebAPI\Services\GuidService;
@@ -40,9 +44,20 @@ class WebAPI {
 	public $draftService;
 	/** @var DraftCreateService  */
 	public $draftCreateService;
+	/** @var DraftCPUPickService */
+	public $draftCPUPickService;
+
+	/** @var DraftDao */
+	public $draftDao;
+	/** @var ChartDao */
+	public $chartDao;
+	/** @var TeamDao */
+	public $teamDao;
+
 
 	public function __construct()
 	{
+		// services
 		$this->accountService = new AccountService($this);
 		$this->chartService = new ChartService($this);
 		$this->guidService = new GuidService($this);
@@ -54,6 +69,12 @@ class WebAPI {
 		$this->rollService = new RollService($this);
 		$this->teamService = new TeamService($this);
 		$this->draftCreateService = new DraftCreateService($this);
+		$this->draftCPUPickService = new DraftCPUPickService($this);
 		$this->draftService = new DraftService($this);
+
+		// DAOs
+		$this->draftDao = new DraftDao();
+		$this->chartDao = new ChartDao();
+		$this->teamDao = new TeamDao();
 	}
 }

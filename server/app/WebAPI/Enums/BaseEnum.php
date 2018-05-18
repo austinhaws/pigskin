@@ -9,7 +9,7 @@ abstract class BaseEnum {
 	/**
 	 * oh no you don't
 	 */
-	private function constructor() {
+	private function __construct() {
 		throw new \RuntimeException('Do not instantiate enumerations');
 	}
 
