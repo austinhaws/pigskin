@@ -19,7 +19,7 @@
 - \[ ] js webservice hookup
 	- \[ ] get/create draft
 	- \[ ] pick player
-	- \[ ] calculate player 
+	- \[ ] calculate player
 - \[ ] js service creation
 	- \[ ] pass through to webservice calls
 - \[ ] draft page (not all draft picks picked - remember to show all computer picks with timer before going to next page)

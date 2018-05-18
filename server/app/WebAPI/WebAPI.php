@@ -17,6 +17,7 @@ use App\WebAPI\Services\PhraseService;
 use App\WebAPI\Services\PlayerService;
 use App\WebAPI\Services\ResponseService;
 use App\WebAPI\Services\RollService;
+use App\WebAPI\Services\Router\RouterService;
 use App\WebAPI\Services\TeamService;
 
 class WebAPI {
@@ -46,6 +47,8 @@ class WebAPI {
 	public $draftCreateService;
 	/** @var DraftCPUPickService */
 	public $draftCPUPickService;
+	/** @var RouterService */
+	public $routerService;
 
 	/** @var DraftDao */
 	public $draftDao;
@@ -71,6 +74,7 @@ class WebAPI {
 		$this->draftCreateService = new DraftCreateService($this);
 		$this->draftCPUPickService = new DraftCPUPickService($this);
 		$this->draftService = new DraftService($this);
+		$this->routerService = new RouterService($this);
 
 		// DAOs
 		$this->draftDao = new DraftDao();

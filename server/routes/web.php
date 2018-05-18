@@ -13,16 +13,4 @@
 
 use App\WebAPI\WebAPI;
 
-$webApi = new WebAPI();
-
-$router->get('account/create', function () use ($webApi) {
-	return $webApi->responseService->cleanJsonResponse($webApi->accountService->create());
-});
-
-$router->get('account/get/{phraseOrGuid}', function ($phraseOrGuid) use ($webApi) {
-	return $webApi->responseService->cleanJsonResponse($webApi->accountService->get($phraseOrGuid));
-});
-
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+(new WebAPI())->routerService->init($router);

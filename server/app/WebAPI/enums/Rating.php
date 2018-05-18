@@ -32,6 +32,10 @@ class Rating extends BaseEnum {
 		];
 	}
 
+	public static function sort($a, $b) {
+		return strcmp($a, $b);
+	}
+
 	static function who()
 	{
 		return __CLASS__;
