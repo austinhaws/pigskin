@@ -1,7 +1,7 @@
 <?php
 namespace App\WebAPI\Models;
 
-class DraftSequence
+class DraftSequence extends BaseModel
 {
 	public $teamGuid;
 	public $playerPickedGuid;
@@ -10,7 +10,8 @@ class DraftSequence
 	 * @param $teamGuid string
 	 * @param $playerPickedGuid string
 	 */
-	public function __construct($teamGuid, $playerPickedGuid) {
+	public function __construct($teamGuid = null, $playerPickedGuid = null) {
+		parent::__construct();
 		$this->teamGuid = $teamGuid;
 		$this->playerPickedGuid = $playerPickedGuid;
 	}

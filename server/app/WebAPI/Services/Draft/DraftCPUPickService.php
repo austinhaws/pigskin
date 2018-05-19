@@ -5,8 +5,6 @@ namespace App\WebAPI\Services\Draft;
 use App\WebAPI\Enums\Rating;
 use App\WebAPI\Enums\TeamType;
 use App\WebAPI\Models\Draft;
-use App\WebAPI\Models\Lineup;
-use App\WebAPI\Models\Player;
 use App\WebAPI\Models\Team;
 use App\WebAPI\Services\BaseService;
 
@@ -17,11 +15,7 @@ class DraftCPUPickService extends BaseService
 	 */
 	public function cpuPickPlayers($draft) {
 		// get teams for draft
-		$teams = array_map(function ($teamDB) {
-			$teamDB->players = $this->webApi->jsonService->jsonToObjectArray($teamDB->players, Player::class);
-			$teamDB->lineups = $this->webApi->jsonService->jsonToObjectArray($teamDB->lineups, Lineup::class);
-			return $teamDB;
-		}, $this->webApi->draftDao->teamsForDraft($draft->id)->toArray());
+		$teams = $this->webApi->teamTranslator->fromDBCollection($this->webApi->draftDao->teamsForDraft($draft->id));
 		$teamMap = [];
 		foreach ($teams as $team) {
 			$teamMap[$team->guid] = $team;

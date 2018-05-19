@@ -13,7 +13,7 @@ class ChartDao
 	 * @return \Illuminate\Support\Collection
 	 */
 	public function selectChartDetails($chartType, $filter = null) {
-		$query = DB::table(DBTable::CHART_DETAIL)->where('chart_id', DB::raw("(SELECT id FROM chart WHERE name = '$chartType')"));
+		$query = DB::table(DBTable::CHART_DETAIL)->where('chartId', DB::raw("(SELECT id FROM chart WHERE name = '$chartType')"));
 
 		if ($filter) {
 			$query = $query->where('filter', $filter);

@@ -9,6 +9,7 @@ use App\WebAPI\Services\AccountService;
 use App\WebAPI\Services\Chart\ChartService;
 use App\WebAPI\Services\Draft\DraftCPUPickService;
 use App\WebAPI\Services\Draft\DraftCreateService;
+use App\WebAPI\Services\Draft\DraftPlayerPickService;
 use App\WebAPI\Services\Draft\DraftService;
 use App\WebAPI\Services\GuidService;
 use App\WebAPI\Services\JsonService;
@@ -19,12 +20,22 @@ use App\WebAPI\Services\ResponseService;
 use App\WebAPI\Services\RollService;
 use App\WebAPI\Services\Router\RouterService;
 use App\WebAPI\Services\TeamService;
+use App\WebAPI\Services\Translator\DraftTranslator;
+use App\WebAPI\Services\Translator\TeamTranslator;
 
 class WebAPI {
 	/** @var AccountService account service */
 	public $accountService;
 	/** @var ChartService chart service */
 	public $chartService;
+	/** @var DraftCPUPickService */
+	public $draftCPUPickService;
+	/** @var DraftCreateService  */
+	public $draftCreateService;
+	/** @var DraftPlayerPickService  */
+	public $draftPlayerPickService;
+	/** @var DraftService */
+	public $draftService;
 	/** @var GuidService guid service */
 	public $guidService;
 	/** @var JsonService json service */
@@ -39,46 +50,50 @@ class WebAPI {
 	public $responseService;
 	/** @var RollService roll service */
 	public $rollService;
-	/** @var TeamService team service */
-	public $teamService;
-	/** @var DraftService */
-	public $draftService;
-	/** @var DraftCreateService  */
-	public $draftCreateService;
-	/** @var DraftCPUPickService */
-	public $draftCPUPickService;
 	/** @var RouterService */
 	public $routerService;
+	/** @var TeamService team service */
+	public $teamService;
 
-	/** @var DraftDao */
-	public $draftDao;
 	/** @var ChartDao */
 	public $chartDao;
+	/** @var DraftDao */
+	public $draftDao;
 	/** @var TeamDao */
 	public $teamDao;
+
+	/** @var DraftTranslator */
+	public $draftTranslator;
+	/** @var TeamTranslator */
+	public $teamTranslator;
 
 
 	public function __construct()
 	{
-		// services
+		// == Services == //
 		$this->accountService = new AccountService($this);
 		$this->chartService = new ChartService($this);
+		$this->draftCPUPickService = new DraftCPUPickService($this);
+		$this->draftCreateService = new DraftCreateService($this);
+		$this->draftPlayerPickService = new DraftPlayerPickService($this);
+		$this->draftService = new DraftService($this);
 		$this->guidService = new GuidService($this);
 		$this->jsonService = new JsonService($this);
 		$this->nameService = new NameService($this);
-		$this->playerService = new PlayerService($this);
 		$this->phraseService = new PhraseService($this);
+		$this->playerService = new PlayerService($this);
 		$this->responseService = new ResponseService($this);
 		$this->rollService = new RollService($this);
-		$this->teamService = new TeamService($this);
-		$this->draftCreateService = new DraftCreateService($this);
-		$this->draftCPUPickService = new DraftCPUPickService($this);
-		$this->draftService = new DraftService($this);
 		$this->routerService = new RouterService($this);
+		$this->teamService = new TeamService($this);
 
-		// DAOs
-		$this->draftDao = new DraftDao();
+		// == DAOs == //
 		$this->chartDao = new ChartDao();
+		$this->draftDao = new DraftDao();
 		$this->teamDao = new TeamDao();
+
+		// == Translators == //
+		$this->draftTranslator = new DraftTranslator($this);
+		$this->teamTranslator = new TeamTranslator($this);
 	}
 }

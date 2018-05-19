@@ -2,7 +2,6 @@
 
 namespace App\WebAPI\Services;
 
-use App\WebAPI\Enums\DBTable;
 use App\WebAPI\Enums\PositionType;
 use App\WebAPI\Enums\Rating;
 use App\WebAPI\Enums\Roster;
@@ -11,7 +10,6 @@ use App\WebAPI\Enums\TeamType;
 use App\WebAPI\Models\Lineup;
 use App\WebAPI\Models\Player;
 use App\WebAPI\Models\Team;
-use Illuminate\Support\Facades\DB;
 
 class TeamService extends BaseService
 {
@@ -26,30 +24,7 @@ class TeamService extends BaseService
 	 */
 	public function get($accountGuid, $teamGuid = null)
 	{
-		$query = DB::table(DBTable::TEAM)->select('team.*');
-		if ($accountGuid) {
-			$query = $query->join(DBTable::ACCOUNT, 'account.id', '=', 'team.accountId');
-			$query = $query->where('account.guid', $accountGuid);
-		}
-		if ($teamGuid) {
-			$query = $query->where('team.guid', $teamGuid);
-		}
-		$teamDB = $query->first();
-
-		$team = $teamDB ? new Team() : null;
-		if ($team) {
-			$team = new Team();
-			$team->id = $teamDB->id;
-			$team->accountId = $teamDB->accountId;
-			$team->guid = $teamDB->guid;
-			$team->name = $teamDB->name;
-			$team->players = $this->webApi->jsonService->jsonToObjectArray($teamDB->players, Player::class);
-			$team->lineups = $this->webApi->jsonService->jsonToObjectArray($teamDB->lineups, Lineup::class);
-			$team->teamType = $teamDB->teamType;
-			$team->stage = $teamDB->stage;
-		}
-
-		return $team;
+		return $this->webApi->teamTranslator->fromDBObj($this->webApi->teamDao->selectTeam($accountGuid, $teamGuid));
 	}
 
 	/**
@@ -75,7 +50,7 @@ class TeamService extends BaseService
 		$team->stage = TeamStage::DRAFT;
 		$team->teamType = $teamType;
 
-		$this->webApi->teamDao->insertTeam($team);
+		$team->id = $this->webApi->teamDao->insertTeam($this->webApi->teamTranslator->toDBArray($team));
 
 		$accountGuid = null;
 		if ($accountId) {

@@ -23,9 +23,10 @@ class DraftRouter extends BaseRouter
 	 * @param $accountGuid string
 	 * @param $teamGuid string
 	 * @param $playerGuid string
+	 * @return \App\WebAPI\Models\Draft
 	 */
 	public function makeDraftPick($accountGuid, $teamGuid, $playerGuid) {
-
+		return $this->webApi->draftService->makePlayerPick($accountGuid, $teamGuid, $playerGuid);
 	}
 
 	/**
@@ -33,6 +34,7 @@ class DraftRouter extends BaseRouter
 	 *
 	 * @param $accountGuid string
 	 * @param $teamGuid string
+	 * @return \App\WebAPI\Models\Draft
 	 */
 	public function getDraft($accountGuid, $teamGuid) {
 		return $this->webApi->draftService->getDraft($accountGuid, $teamGuid);

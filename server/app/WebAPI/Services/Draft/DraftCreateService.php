@@ -52,7 +52,7 @@ class DraftCreateService extends BaseService
 		}, array_merge($teamGuids, $teamGuids, $teamGuids, $teamGuids, $teamGuids));
 
 		// insert draft object
-		$this->webApi->draftDao->insertDraft($draft);
+		$draft->id = $this->webApi->draftDao->insertDraft($this->webApi->draftTranslator->toDBArray($draft));
 
 		// link cpuTeams to draft teams
 		foreach ($cpuTeams as $cpuTeam) {

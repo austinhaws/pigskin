@@ -4,20 +4,16 @@ namespace App\WebAPI\Dao;
 
 use App\WebAPI\Enums\DBTable;
 use App\WebAPI\Enums\DraftState;
-use App\WebAPI\Models\Draft;
 use Illuminate\Support\Facades\DB;
 
 class DraftDao
 {
 	/**
-	 * @param $draft Draft the draft to create
+	 * @param array $draft the draft to create
+	 * @return int
 	 */
-	public function insertDraft(&$draft) {
-		$draft->id = DB::table(DBTable::DRAFT)->insertGetId([
-			'availablePlayers' => json_encode($draft->availablePlayers),
-			'draftSequence' => json_encode($draft->draftSequence),
-			'state' => $draft->state,
-		]);
+	public function insertDraft(array $draft) {
+		return DB::table(DBTable::DRAFT)->insertGetId($draft);
 	}
 
 	/**
@@ -34,22 +30,14 @@ class DraftDao
 	}
 
 	/**
-	 * @param $draftId int id of the draft to get
-	 * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|null|object
+	 * @param array $draft
 	 */
-	public function selectDraftById($draftId) {
-		return DB::table(DBTable::DRAFT)->where('id', $draftId)->first();
-	}
-
-	/**
-	 * @param $draft Draft
-	 */
-	public function updateDraft($draft) {
+	public function updateDraft(array $draft) {
 		DB::table(DBTable::DRAFT)
-			->where('id', $draft->id)
+			->where('id', $draft['id'])
 			->update([
-				'availablePlayers' => json_encode($draft->availablePlayers),
-				'draftSequence' => json_encode($draft->draftSequence),
+				'availablePlayers' => $draft['availablePlayers'],
+				'draftSequence' => $draft['draftSequence'],
 			]);
 	}
 
