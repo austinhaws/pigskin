@@ -14,8 +14,8 @@ class DraftDao
 	 */
 	public function insertDraft(&$draft) {
 		$draft->id = DB::table(DBTable::DRAFT)->insertGetId([
-			'available_players' => json_encode($draft->availablePlayers),
-			'draft_sequence' => json_encode($draft->draftSequence),
+			'availablePlayers' => json_encode($draft->availablePlayers),
+			'draftSequence' => json_encode($draft->draftSequence),
 			'state' => $draft->state,
 		]);
 	}
@@ -26,8 +26,8 @@ class DraftDao
 	 */
 	public function selectDraftForTeam($teamId) {
 		return DB::table(DBTable::DRAFT)
-			->join(DBTable::DRAFT_X_TEAM, 'draft_x_team.draft_id', '=', 'draft.id')
-			->where('draft_x_team.team_id', $teamId)
+			->join(DBTable::DRAFT_X_TEAM, 'draft_x_team.draftId', '=', 'draft.id')
+			->where('draft_x_team.teamId', $teamId)
 			->whereRaw("draft.state = ?", [DraftState::IN_PROGRESS])
 			->select('draft.*')
 			->first();
@@ -48,8 +48,8 @@ class DraftDao
 		DB::table(DBTable::DRAFT)
 			->where('id', $draft->id)
 			->update([
-				'available_players' => json_encode($draft->availablePlayers),
-				'draft_sequence' => json_encode($draft->draftSequence),
+				'availablePlayers' => json_encode($draft->availablePlayers),
+				'draftSequence' => json_encode($draft->draftSequence),
 			]);
 	}
 
@@ -58,7 +58,7 @@ class DraftDao
 	 * @param $teamId int
 	 */
 	public function insertDraftXTeam($draftId, $teamId) {
-		DB::table(DBTable::DRAFT_X_TEAM)->insert(['draft_id' => $draftId, 'team_id' => $teamId]);
+		DB::table(DBTable::DRAFT_X_TEAM)->insert(['draftId' => $draftId, 'teamId' => $teamId]);
 	}
 
 	/**
@@ -68,8 +68,8 @@ class DraftDao
 	 */
 	public function teamsForDraft($draftId) {
 		return DB::table(DBTable::TEAM)
-			->join('draft_x_team', 'draft_x_team.team_id', '=', 'team.id')
-			->where('draft_x_team.draft_id', $draftId)
+			->join('draft_x_team', 'draft_x_team.teamId', '=', 'team.id')
+			->where('draft_x_team.draftId', $draftId)
 			->get();
 	}
 }

@@ -18,10 +18,9 @@ class DraftCPUPickService extends BaseService
 	public function cpuPickPlayers($draft) {
 		// get teams for draft
 		$teams = array_map(function ($teamDB) {
-			$team = $this->webApi->jsonService->snakeCaseToCamelCase($teamDB);
-			$team->players = $this->webApi->jsonService->jsonToObjectArray($teamDB->players, Player::class);
-			$team->lineups = $this->webApi->jsonService->jsonToObjectArray($teamDB->lineups, Lineup::class);
-			return $team;
+			$teamDB->players = $this->webApi->jsonService->jsonToObjectArray($teamDB->players, Player::class);
+			$teamDB->lineups = $this->webApi->jsonService->jsonToObjectArray($teamDB->lineups, Lineup::class);
+			return $teamDB;
 		}, $this->webApi->draftDao->teamsForDraft($draft->id)->toArray());
 		$teamMap = [];
 		foreach ($teams as $team) {

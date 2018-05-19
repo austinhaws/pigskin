@@ -25,16 +25,13 @@ class DraftService extends BaseService
 		if ($draftDB) {
 			$draft = new Draft();
 			$draft->id = $draftDB->id;
-			$draft->availablePlayers = $this->webApi->jsonService->jsonToObjectArray($draftDB->available_players, Player::class);
-			$draft->draftSequence = json_decode($draftDB->draft_sequence);
+			$draft->availablePlayers = $this->webApi->jsonService->jsonToObjectArray($draftDB->availablePlayers, Player::class);
+			$draft->draftSequence = json_decode($draftDB->draftSequence);
 			$draft->state = $draftDB->state;
 		} else {
 			// start a new draft
 			$draft = $this->webApi->draftCreateService->createDraft($team->guid);
 		}
-
-		// need to convert draft fields to camel case for js consumption
-		$this->webApi->jsonService->snakeCaseToCamelCase($draft);
 		return $draft;
 	}
 }

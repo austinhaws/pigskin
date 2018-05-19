@@ -13,12 +13,12 @@ class TeamDao
 	 */
 	public function insertTeam(&$team) {
 		$team->id = DB::table(DBTABLE::TEAM)->insertGetId([
-			'account_id' => $team->accountId,
+			'accountId' => $team->accountId,
 			'guid' => $team->guid,
 			'name' => $team->name,
 			'players' => json_encode($team->players),
 			'lineups' => json_encode($team->lineups),
-			'team_type' => $team->teamType,
+			'teamType' => $team->teamType,
 			'stage' => $team->stage,
 		]);
 	}

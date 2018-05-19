@@ -44,14 +44,14 @@ CREATE TABLE `chart` (
 
 CREATE TABLE `chart_detail` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`chart_id` int(11) NOT NULL,
+	`chartId` int(11) NOT NULL,
 	`maximum` int(11) NOT NULL,
 	`value` varchar(500) DEFAULT NULL,
 	`filter` varchar(500) DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `chart_detail_id_uindex` (`id`),
-	KEY `chartdetail_chart_fk` (`chart_id`),
-	CONSTRAINT `chartdetail_chart_fk` FOREIGN KEY (`chart_id`) REFERENCES `chart` (`id`)
+	KEY `chartdetail_chart_fk` (`chartId`),
+	CONSTRAINT `chartdetail_chart_fk` FOREIGN KEY (`chartId`) REFERENCES `chart` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `name` (
@@ -64,13 +64,13 @@ CREATE TABLE `name` (
 
 CREATE TABLE `team` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`account_id` int(11),
+	`accountId` int(11),
 	`name` varchar(500) NOT NULL,
 	`players` text NOT NULL,
 	`lineups` text,
 	PRIMARY KEY (`id`),
-	KEY `account_fk` (`account_id`),
-	CONSTRAINT `account_fk` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`)
+	KEY `account_fk` (`accountId`),
+	CONSTRAINT `account_fk` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=utf8;
 
 
@@ -1901,7 +1901,7 @@ VALUES
 	(7,'Player Starting Age'),
 	(8,'Rating Skill Bonus Roll');
 
-INSERT INTO `chart_detail` (`id`, `chart_id`, `maximum`, `value`, `filter`)
+INSERT INTO `chart_detail` (`id`, `chartId`, `maximum`, `value`, `filter`)
 VALUES
 	(19,5,50,'run','QB'),
 	(20,5,100,'pass','QB'),

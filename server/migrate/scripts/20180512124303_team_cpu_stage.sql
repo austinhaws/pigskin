@@ -17,12 +17,12 @@
 -- // account cpu stage
 -- Migration SQL that makes the change goes here.
 
-ALTER TABLE team ADD COLUMN team_type NVARCHAR(500);
+ALTER TABLE team ADD COLUMN teamType NVARCHAR(500);
 ALTER TABLE team ADD COLUMN stage NVARCHAR(500);
 
 -- //@UNDO
 -- SQL to undo the change goes here.
 
 
-ALTER TABLE team DROP COLUMN team_type;
+ALTER TABLE team DROP COLUMN teamType;
 ALTER TABLE team DROP COLUMN stage;

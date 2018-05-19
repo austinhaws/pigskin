@@ -17,8 +17,8 @@
 -- // chart-upgrade rating tiers
 -- Migration SQL that makes the change goes here.
 
-UPDATE chart_detail SET filter = 3 WHERE chart_id = 6;
-INSERT INTO chart_detail (chart_id, maximum, value, filter) VALUES
+UPDATE chart_detail SET filter = 3 WHERE chartId = 6;
+INSERT INTO chart_detail (chartId, maximum, value, filter) VALUES
 	(6, 1, 'A', 1),
 	(6, 5, 'B', 1),
 	(6, 15, 'C', 1),
@@ -30,5 +30,5 @@ INSERT INTO chart_detail (chart_id, maximum, value, filter) VALUES
 -- SQL to undo the change goes here.
 
 
-DELETE FROM chart_detail WHERE chart_id = 6 AND filter = 1;
-UPDATE chart_detail SET filter = null WHERE chart_id = 6;
+DELETE FROM chart_detail WHERE chartId = 6 AND filter = 1;
+UPDATE chart_detail SET filter = null WHERE chartId = 6;

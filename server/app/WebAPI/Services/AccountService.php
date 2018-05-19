@@ -24,7 +24,7 @@ class AccountService extends BaseService
 			$account = DB::table(DBTable::ACCOUNT)->where('id', $phraseOrGuidOrId)->first();
 		}
 		if ($account) {
-			$account->team = $this->webApi->responseService->cleanRecord($this->webApi->teamService->get($account->guid), ['account_id']);
+			$account->team = $this->webApi->responseService->cleanRecord($this->webApi->teamService->get($account->guid), ['accountId']);
 		}
 		return $account;
 	}

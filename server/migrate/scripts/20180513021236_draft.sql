@@ -19,8 +19,8 @@
 
 CREATE TABLE draft (
 	id int(11) NOT NULL AUTO_INCREMENT,
-	available_players TEXT,
-	draft_sequence TEXT,
+	availablePlayers TEXT,
+	draftSequence TEXT,
 	state NVARCHAR(500),
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `draft_id_uindex` (`id`)
@@ -28,12 +28,12 @@ CREATE TABLE draft (
 
 CREATE TABLE draft_x_team (
 	id int(11) NOT NULL AUTO_INCREMENT,
-	draft_id int,
-	team_id int,
+	draftId int,
+	teamId int,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `draftteam_id_uindex` (`id`),
-	CONSTRAINT draftteam_draft_fk FOREIGN KEY (draft_id) REFERENCES draft (id),
-	CONSTRAINT draftteam_team_fk FOREIGN KEY (team_id) REFERENCES team (id)
+	CONSTRAINT draftteam_draft_fk FOREIGN KEY (draftId) REFERENCES draft (id),
+	CONSTRAINT draftteam_team_fk FOREIGN KEY (teamId) REFERENCES team (id)
 );
 
 -- //@UNDO

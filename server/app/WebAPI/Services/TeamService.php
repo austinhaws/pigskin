@@ -28,7 +28,7 @@ class TeamService extends BaseService
 	{
 		$query = DB::table(DBTable::TEAM)->select('team.*');
 		if ($accountGuid) {
-			$query = $query->join(DBTable::ACCOUNT, 'account.id', '=', 'team.account_id');
+			$query = $query->join(DBTable::ACCOUNT, 'account.id', '=', 'team.accountId');
 			$query = $query->where('account.guid', $accountGuid);
 		}
 		if ($teamGuid) {
@@ -40,12 +40,12 @@ class TeamService extends BaseService
 		if ($team) {
 			$team = new Team();
 			$team->id = $teamDB->id;
-			$team->accountId = $teamDB->account_id;
+			$team->accountId = $teamDB->accountId;
 			$team->guid = $teamDB->guid;
 			$team->name = $teamDB->name;
 			$team->players = $this->webApi->jsonService->jsonToObjectArray($teamDB->players, Player::class);
 			$team->lineups = $this->webApi->jsonService->jsonToObjectArray($teamDB->lineups, Lineup::class);
-			$team->teamType = $teamDB->team_type;
+			$team->teamType = $teamDB->teamType;
 			$team->stage = $teamDB->stage;
 		}
 
