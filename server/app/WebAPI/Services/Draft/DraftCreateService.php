@@ -21,10 +21,10 @@ class DraftCreateService extends BaseService
 	/**
 	 * start a new draft with draft candidates and CPU players as needed
 	 *
-	 * @param $playerTeamId int id of the player team initiating this draft
+	 * @param $playerTeamGuid string id of the player team initiating this draft
 	 * @return Draft the created and started draft
 	 */
-	public function createDraft($playerTeamId)
+	public function createDraft($playerTeamGuid)
 	{
 		$draft = new Draft();
 		$draft->state = DraftState::IN_PROGRESS;
@@ -42,7 +42,7 @@ class DraftCreateService extends BaseService
 			return $guids;
 		}, []);
 
-		$playerTeam = $this->webApi->teamService->get(null, $playerTeamId);
+		$playerTeam = $this->webApi->teamService->get(null, $playerTeamGuid);
 		$teamGuids[] = $playerTeam->guid;
 
 		shuffle($teamGuids);
@@ -58,7 +58,7 @@ class DraftCreateService extends BaseService
 		foreach ($cpuTeams as $cpuTeam) {
 			$this->webApi->draftDao->insertDraftXTeam($draft->id, $cpuTeam->id);
 		}
-		$this->webApi->draftDao->insertDraftXTeam($draft->id, $playerTeamId);
+		$this->webApi->draftDao->insertDraftXTeam($draft->id, $playerTeam->id);
 
 		// start picking CPU players' picks until hit a non-CPU player
 		$this->webApi->draftCPUPickService->cpuPickPlayers($draft);

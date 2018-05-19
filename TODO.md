@@ -1,3 +1,6 @@
+\[ ] Use camelCase in DB fields... so stupid to always convert between objects and snake
+
+
 ## Draft
 \[ ] objects coming from DB should have their field converted to camel case and child object arrays filled as objects; and then going back to DB, childs should be changed to json; would Eloquent make this better? Probably be better to have a BaseModel that then has an abstract function for knowing which child fields need json conversion and their class, as well as public functions that convert to/from camel/snake case.
 
@@ -203,6 +206,8 @@ have gems to buy upgrades
 earn coins/badges/honors/upgrades by grinding
 
 it would be cool to eventually have players have a history of their seasons and who they played with so you can see where they've been and what they've become. 
+
+Like Returnes, put exclamation points on what to do next and missions to do next. There should always be exclamation points so there is always something next to do. Daily and weekly missions.
 
 TO Run Unit Tests
 * ./vendor/bin/phpunit

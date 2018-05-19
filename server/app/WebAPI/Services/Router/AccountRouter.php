@@ -11,8 +11,8 @@ class AccountRouter extends BaseRouter
 	function init($router)
 	{
 		$that = $this;
-		$router->get('account/create', function () use(&$that) {return $that->accountCreate();});
-		$router->get('account/get/{phraseOrGuid}', function ($phraseOrGuid) use(&$that) {return $that->accountGet($phraseOrGuid);});
+		$router->get('account/create', function () use($that) {return $that->accountCreate();});
+		$router->get('account/get/{phraseOrGuid}', function ($phraseOrGuid) use($that) {return $that->accountGet($phraseOrGuid);});
 	}
 
 	/**

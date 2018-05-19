@@ -11,17 +11,20 @@ class AccountService extends BaseService
 	/**
 	 * get an account
 	 *
-	 * @param $phraseOrGuid string could be a phrase or a guid
+	 * @param $phraseOrGuidOrId string|int could be a phrase or a guid
 	 * @return object the found account or null
 	 */
-	public function get($phraseOrGuid)
+	public function get($phraseOrGuidOrId)
 	{
-		$account = DB::table(DBTable::ACCOUNT)->where('phrase', $phraseOrGuid)->first();
+		$account = DB::table(DBTable::ACCOUNT)->where('phrase', $phraseOrGuidOrId)->first();
 		if (!$account) {
-			$account = DB::table(DBTable::ACCOUNT)->where('guid', $phraseOrGuid)->first();
+			$account = DB::table(DBTable::ACCOUNT)->where('guid', $phraseOrGuidOrId)->first();
+		}
+		if (!$account) {
+			$account = DB::table(DBTable::ACCOUNT)->where('id', $phraseOrGuidOrId)->first();
 		}
 		if ($account) {
-			$account->team = $this->webApi->responseService->cleanRecord($this->webApi->teamService->get($account->id), ['account_id']);
+			$account->team = $this->webApi->responseService->cleanRecord($this->webApi->teamService->get($account->guid), ['account_id']);
 		}
 		return $account;
 	}

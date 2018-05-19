@@ -13,9 +13,8 @@ class DraftServiceTest extends BaseServiceTest
     	$this->webApiTest->rollService->setRolls([RollServiceMock::INFINITE_WILD_CARD]);
 
     	$account = $this->webApiTest->accountService->create();
-    	$team = $this->webApiTest->teamService->get($account->id);
-
-    	$draft = $this->webApiTest->draftService->getDraft($account->id, $team->id);
+    	$team = $this->webApiTest->teamService->get($account->guid);
+    	$draft = $this->webApiTest->draftService->getDraft($account->guid, $team->guid);
 
     	$this->assertTrue(count($draft->availablePlayers) <= DraftCreateService::DRAFT_SIZE);
     	$this->assertEquals(count($draft->draftSequence), (DraftCreateService::NUMBER_CPUS + 1) * 5);
@@ -35,7 +34,7 @@ class DraftServiceTest extends BaseServiceTest
 		}
 
     	// get an already existing draft
-    	$draft2 = $this->webApiTest->draftService->getDraft($account->id, $team->id);
+    	$draft2 = $this->webApiTest->draftService->getDraft($account->guid, $team->guid);
     	$this->assertEquals($draft2->id, $draft->id);
 	}
 }

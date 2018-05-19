@@ -20,18 +20,19 @@ class TeamService extends BaseService
 	/**
 	 * get an account
 	 *
-	 * @param $accountId int account that owns the team (for now one team per account)
-	 * @param null $teamId int if present, gets that team id
+	 * @param $accountGuid string account that owns the team (for now one team per account)
+	 * @param null $teamGuid string if present, gets that team id
 	 * @return Team the found team or null
 	 */
-	public function get($accountId, $teamId = null)
+	public function get($accountGuid, $teamGuid = null)
 	{
-		$query = DB::table(DBTable::TEAM);
-		if ($accountId) {
-			$query = $query->where('account_id', $accountId);
+		$query = DB::table(DBTable::TEAM)->select('team.*');
+		if ($accountGuid) {
+			$query = $query->join(DBTable::ACCOUNT, 'account.id', '=', 'team.account_id');
+			$query = $query->where('account.guid', $accountGuid);
 		}
-		if ($teamId) {
-			$query = $query->where('id', $teamId);
+		if ($teamGuid) {
+			$query = $query->where('team.guid', $teamGuid);
 		}
 		$teamDB = $query->first();
 
@@ -76,7 +77,12 @@ class TeamService extends BaseService
 
 		$this->webApi->teamDao->insertTeam($team);
 
-		return $this->get($accountId, $team->id);
+		$accountGuid = null;
+		if ($accountId) {
+			$account = $this->webApi->accountService->get($accountId);
+			$accountGuid = $account->guid;
+		}
+		return $this->get($accountGuid, $team->guid);
 	}
 
 	/**
