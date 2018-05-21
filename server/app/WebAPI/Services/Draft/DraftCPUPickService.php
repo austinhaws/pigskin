@@ -6,16 +6,16 @@ use App\WebAPI\Enums\Rating;
 use App\WebAPI\Enums\TeamType;
 use App\WebAPI\Models\Draft;
 use App\WebAPI\Models\Team;
-use App\WebAPI\Services\BaseService;
+use App\WebAPI\Services\BaseDaoService;
 
-class DraftCPUPickService extends BaseService
+class DraftCPUPickService extends BaseDaoService
 {
 	/**
 	 * @param $draft Draft the draft to process
 	 */
 	public function cpuPickPlayers($draft) {
 		// get teams for draft
-		$teams = $this->webApi->teamTranslator->fromDBCollection($this->webApi->draftDao->teamsForDraft($draft->id));
+		$teams = $this->webApi->teamTranslator->fromDBCollection($this->daos->draft->teamsForDraft($draft->id));
 		$teamMap = [];
 		foreach ($teams as $team) {
 			$teamMap[$team->guid] = $team;

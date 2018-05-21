@@ -6,7 +6,7 @@ use App\WebAPI\Enums\Rating;
 use App\WebAPI\Enums\Roster;
 use App\WebAPI\Models\Player;
 
-class PlayerService extends BaseService
+class PlayerService extends BaseDaoService
 {
 	/**
 	 * creates a base player with no special bonuses

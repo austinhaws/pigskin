@@ -2,7 +2,9 @@
 
 namespace App\WebAPI;
 
+use App\WebAPI\Dao\AccountDao;
 use App\WebAPI\Dao\ChartDao;
+use App\WebAPI\Dao\Daos;
 use App\WebAPI\Dao\DraftDao;
 use App\WebAPI\Dao\TeamDao;
 use App\WebAPI\Services\AccountService;
@@ -55,6 +57,8 @@ class WebAPI {
 	/** @var TeamService team service */
 	public $teamService;
 
+	/** @var AccountDao */
+	public $accountDao;
 	/** @var ChartDao */
 	public $chartDao;
 	/** @var DraftDao */
@@ -71,26 +75,22 @@ class WebAPI {
 	public function __construct()
 	{
 		// == Services == //
-		$this->accountService = new AccountService($this);
-		$this->chartService = new ChartService($this);
-		$this->draftCPUPickService = new DraftCPUPickService($this);
-		$this->draftCreateService = new DraftCreateService($this);
-		$this->draftPlayerPickService = new DraftPlayerPickService($this);
-		$this->draftService = new DraftService($this);
-		$this->guidService = new GuidService($this);
+		$daos = new Daos();
+		$this->accountService = new AccountService($this, $daos);
+		$this->chartService = new ChartService($this, $daos);
+		$this->draftCPUPickService = new DraftCPUPickService($this, $daos);
+		$this->draftCreateService = new DraftCreateService($this, $daos);
+		$this->draftPlayerPickService = new DraftPlayerPickService($this, $daos);
+		$this->draftService = new DraftService($this, $daos);
+		$this->guidService = new GuidService($this, $daos);
 		$this->jsonService = new JsonService($this);
-		$this->nameService = new NameService($this);
-		$this->phraseService = new PhraseService($this);
-		$this->playerService = new PlayerService($this);
+		$this->nameService = new NameService($this, $daos);
+		$this->phraseService = new PhraseService($this, $daos);
+		$this->playerService = new PlayerService($this, $daos);
 		$this->responseService = new ResponseService($this);
 		$this->rollService = new RollService($this);
 		$this->routerService = new RouterService($this);
-		$this->teamService = new TeamService($this);
-
-		// == DAOs == //
-		$this->chartDao = new ChartDao();
-		$this->draftDao = new DraftDao();
-		$this->teamDao = new TeamDao();
+		$this->teamService = new TeamService($this, $daos);
 
 		// == Translators == //
 		$this->draftTranslator = new DraftTranslator($this);

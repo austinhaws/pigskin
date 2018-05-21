@@ -4,9 +4,9 @@ namespace App\WebAPI\Services\Draft;
 
 use App\WebAPI\Enums\TeamStage;
 use App\WebAPI\Models\Draft;
-use App\WebAPI\Services\BaseService;
+use App\WebAPI\Services\BaseDaoService;
 
-class DraftService extends BaseService
+class DraftService extends BaseDaoService
 {
 	/**
 	 * get the draft for an account, creating one if not found IF team in the DRAFT stage
@@ -22,7 +22,7 @@ class DraftService extends BaseService
 			throw new \RuntimeException('Team is not in draft stage when getting draft');
 		}
 
-		$draft = $this->webApi->draftTranslator->fromDBObj($this->webApi->draftDao->selectDraftForTeam($team->id));
+		$draft = $this->webApi->draftTranslator->fromDBObj($this->daos->draft->selectDraftForTeam($team->id));
 		if (!$draft) {
 			// start a new draft
 			$draft = $this->webApi->draftCreateService->createDraft($team->guid);

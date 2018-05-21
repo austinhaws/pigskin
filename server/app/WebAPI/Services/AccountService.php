@@ -2,11 +2,10 @@
 
 namespace App\WebAPI\Services;
 
-use App\WebAPI\Enums\DBTable;
 use App\WebAPI\Enums\TeamType;
-use Illuminate\Support\Facades\DB;
+use App\WebAPI\Models\Account;
 
-class AccountService extends BaseService
+class AccountService extends BaseDaoService
 {
 	/**
 	 * get an account
@@ -16,33 +15,42 @@ class AccountService extends BaseService
 	 */
 	public function get($phraseOrGuidOrId)
 	{
-		$account = DB::table(DBTable::ACCOUNT)->where('phrase', $phraseOrGuidOrId)->first();
-		if (!$account) {
-			$account = DB::table(DBTable::ACCOUNT)->where('guid', $phraseOrGuidOrId)->first();
+		$phrase = null;
+		$guid = null;
+		$id = null;
+		if ($this->webApi->guidService->isGuid($phraseOrGuidOrId)) {
+			$guid = $phraseOrGuidOrId;
+		} else if (is_int($phraseOrGuidOrId)) {
+			$id = intval($phraseOrGuidOrId);
+		} else {
+			$phrase = $phraseOrGuidOrId;
 		}
-		if (!$account) {
-			$account = DB::table(DBTable::ACCOUNT)->where('id', $phraseOrGuidOrId)->first();
-		}
+
+		$account = $this->daos->account->select($id, $guid, $phrase);
+
+
 		if ($account) {
 			$account->team = $this->webApi->responseService->cleanRecord($this->webApi->teamService->get($account->guid), ['accountId']);
 		}
+
 		return $account;
 	}
 
 	/**
 	 * create a new account
 	 *
-	 * @return object the created account
+	 * @return Account the created account
 	 */
 	public function create()
 	{
-		$phrase = $this->webApi->phraseService->getNewPhrase();
-		$guid = $this->webApi->guidService->getNewGuid();
-		$accountId = DB::table(DBTable::ACCOUNT)->insertGetId(['phrase' => $phrase, 'guid' => $guid]);
+		$account = new Account();
+		$account->phrase = $this->webApi->phraseService->getNewPhrase();
+		$account->guid = $this->webApi->guidService->getNewGuid();
+		$this->daos->account->insert($account);
 
 		// also create a new team for the account
-		$this->webApi->teamService->create($accountId, TeamType::PLAYER);
+		$account->team = $this->webApi->teamService->create($account->id, TeamType::PLAYER);
 
-		return $this->get($phrase);
+		return $account;
 	}
 }

@@ -4,9 +4,9 @@ namespace App\WebAPI\Services\Draft;
 
 use App\WebAPI\Models\Draft;
 use App\WebAPI\Models\Team;
-use App\WebAPI\Services\BaseService;
+use App\WebAPI\Services\BaseDaoService;
 
-class DraftPlayerPickService extends BaseService
+class DraftPlayerPickService extends BaseDaoService
 {
 	/**
 	 * @param Draft $draft

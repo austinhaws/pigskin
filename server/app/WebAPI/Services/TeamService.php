@@ -11,7 +11,7 @@ use App\WebAPI\Models\Lineup;
 use App\WebAPI\Models\Player;
 use App\WebAPI\Models\Team;
 
-class TeamService extends BaseService
+class TeamService extends BaseDaoService
 {
 	const NUMBER_STARTING_BOOSTS = 10;
 
@@ -24,7 +24,7 @@ class TeamService extends BaseService
 	 */
 	public function get($accountGuid, $teamGuid = null)
 	{
-		return $this->webApi->teamTranslator->fromDBObj($this->webApi->teamDao->selectTeam($accountGuid, $teamGuid));
+		return $this->webApi->teamTranslator->fromDBObj($this->daos->team->selectTeam($accountGuid, $teamGuid));
 	}
 
 	/**
@@ -50,7 +50,7 @@ class TeamService extends BaseService
 		$team->stage = TeamStage::DRAFT;
 		$team->teamType = $teamType;
 
-		$team->id = $this->webApi->teamDao->insertTeam($this->webApi->teamTranslator->toDBArray($team));
+		$team->id = $this->daos->team->insertTeam($this->webApi->teamTranslator->toDBArray($team));
 
 		$accountGuid = null;
 		if ($accountId) {

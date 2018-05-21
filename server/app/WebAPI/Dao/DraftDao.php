@@ -6,7 +6,7 @@ use App\WebAPI\Enums\DBTable;
 use App\WebAPI\Enums\DraftState;
 use Illuminate\Support\Facades\DB;
 
-class DraftDao
+class DraftDao extends BaseDao
 {
 	/**
 	 * @param array $draft the draft to create

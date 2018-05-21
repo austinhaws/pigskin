@@ -9,9 +9,9 @@ use App\WebAPI\Models\Draft;
 use App\WebAPI\Models\DraftSequence;
 use App\WebAPI\Models\Player;
 use App\WebAPI\Models\Team;
-use App\WebAPI\Services\BaseService;
+use App\WebAPI\Services\BaseDaoService;
 
-class DraftCreateService extends BaseService
+class DraftCreateService extends BaseDaoService
 {
 	/** @var int how many CPUs to include in the draft with the real player */
 	const NUMBER_CPUS = 5;
@@ -52,13 +52,13 @@ class DraftCreateService extends BaseService
 		}, array_merge($teamGuids, $teamGuids, $teamGuids, $teamGuids, $teamGuids));
 
 		// insert draft object
-		$draft->id = $this->webApi->draftDao->insertDraft($this->webApi->draftTranslator->toDBArray($draft));
+		$draft->id = $this->daos->draft->insertDraft($this->webApi->draftTranslator->toDBArray($draft));
 
 		// link cpuTeams to draft teams
 		foreach ($cpuTeams as $cpuTeam) {
-			$this->webApi->draftDao->insertDraftXTeam($draft->id, $cpuTeam->id);
+			$this->daos->draft->insertDraftXTeam($draft->id, $cpuTeam->id);
 		}
-		$this->webApi->draftDao->insertDraftXTeam($draft->id, $playerTeam->id);
+		$this->daos->draft->insertDraftXTeam($draft->id, $playerTeam->id);
 
 		// start picking CPU players' picks until hit a non-CPU player
 		$this->webApi->draftCPUPickService->cpuPickPlayers($draft);

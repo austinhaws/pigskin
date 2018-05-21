@@ -2,17 +2,19 @@
 
 namespace App\WebAPI\Services\Chart;
 
+use App\WebAPI\Dao\Daos;
 use App\WebAPI\Enums\ChartType;
-use App\WebAPI\Services\BaseService;
+use App\WebAPI\Services\BaseDaoService;
+use App\WebAPI\WebAPI;
 
-class ChartService extends BaseService
+class ChartService extends BaseDaoService
 {
 	/** @var array chartType => filter => ChartDetail[] */
 	private $chartDetailCache;
 
-	public function __construct($webApi)
+	public function __construct(WebAPI $webApi, Daos $daos)
 	{
-		parent::__construct($webApi);
+		parent::__construct($webApi, $daos);
 		$this->chartDetailCache = new ChartDetailCacheService();
 	}
 
@@ -79,7 +81,7 @@ class ChartService extends BaseService
 	{
 		$options = $this->chartDetailCache->getCacheDetail($chartType, $filter);
 		if (!$options) {
-			$options = $this->webApi->chartDao->selectChartDetails($chartType, $filter);
+			$options = $this->daos->chart->selectChartDetails($chartType, $filter);
 			$this->chartDetailCache->setCacheDetail($chartType, $filter, $options);
 		}
 

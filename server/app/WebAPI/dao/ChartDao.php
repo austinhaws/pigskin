@@ -5,7 +5,7 @@ namespace App\WebAPI\Dao;
 use App\WebAPI\Enums\DBTable;
 use Illuminate\Support\Facades\DB;
 
-class ChartDao
+class ChartDao extends BaseDao
 {
 	/**
 	 * @param $chartType string ChartType...

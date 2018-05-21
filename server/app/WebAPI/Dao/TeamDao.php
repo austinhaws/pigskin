@@ -5,7 +5,7 @@ namespace App\WebAPI\Dao;
 use App\WebAPI\Enums\DBTable;
 use Illuminate\Support\Facades\DB;
 
-class TeamDao
+class TeamDao extends BaseDao
 {
 	/**
 	 * @param array $team the team to insert
