@@ -23,6 +23,8 @@ class GuidService extends BaseDaoService
 	 */
 	public function isGuid($guid)
 	{
-		return 1 === preg_match('/^[a-z|0-9]{13}$/i', $guid);
+		return
+			1 === preg_match('/^[a-z|0-9]{13}$/i', $guid) &&
+			1 !== preg_match('/^[A-Z][a-z]+[A-Z][a-z]+\d\d$/', $guid);
 	}
 }

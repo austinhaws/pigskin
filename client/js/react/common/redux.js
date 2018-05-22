@@ -4,11 +4,8 @@ import _ from "lodash";
 import clone from "clone";
 
 // use ReduxService instead of calling or importing this stuff directly
-
-function objectAtPath(obj, path) {
-	return path ? path
-		.split('\.')
-		.reduce((prevObj, piece) => prevObj[piece], obj) : obj;
+function objectAtPath(baseObject, path) {
+	return (path || '').split('\.').reduce((obj, field) => field ? obj[field] : obj, baseObject);
 }
 
 const reducers = {

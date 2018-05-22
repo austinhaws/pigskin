@@ -48,7 +48,9 @@ class DraftCreateService extends BaseDaoService
 		shuffle($teamGuids);
 		// cycle through 5 picks for each team
 		$draft->draftSequence = array_map(function ($teamGuid) {
-			return new DraftSequence($teamGuid, null);
+			$draftSequence = new DraftSequence();
+			$draftSequence->teamGuid = $teamGuid;
+			return $draftSequence;
 		}, array_merge($teamGuids, $teamGuids, $teamGuids, $teamGuids, $teamGuids));
 
 		// insert draft object
@@ -62,6 +64,9 @@ class DraftCreateService extends BaseDaoService
 
 		// start picking CPU players' picks until hit a non-CPU player
 		$this->webApi->draftCPUPickService->cpuPickPlayers($draft);
+
+		// save now that some picks may have been made by CPUs
+		$this->daos->draft->updateDraft($this->webApi->draftTranslator->toDBArray($draft));
 
 		return $draft;
 	}

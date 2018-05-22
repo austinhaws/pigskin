@@ -14,6 +14,7 @@ class TeamTranslator extends BaseTranslator
 	 */
 	public function toDBArray($team) {
 		return [
+			'id' => $team->id,
 			'accountId' => $team->accountId,
 			'guid' => $team->guid,
 			'name' => $team->name,

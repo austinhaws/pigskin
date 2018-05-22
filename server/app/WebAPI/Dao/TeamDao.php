@@ -21,7 +21,21 @@ class TeamDao extends BaseDao
 	 */
 	public function updateTeam(array $team)
 	{
-		DB::table(DBTable::TEAM)->update($team);
+		if (!$team['id'] && !$team['guid']) {
+			var_dump($team);
+			throw new \RuntimeException('Team has no identifier');
+		}
+
+		$sql = DB::table(DBTable::TEAM);
+
+		if ($team['id']) {
+			$sql = $sql->where('id', $team['id']);
+		}
+		if ($team['guid']) {
+			$sql = $sql->where('guid', $team['guid']);
+		}
+
+		$sql->update($this->removeFields($team));
 	}
 
 	/**

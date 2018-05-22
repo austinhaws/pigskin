@@ -2,11 +2,7 @@
 
 namespace App\WebAPI;
 
-use App\WebAPI\Dao\AccountDao;
-use App\WebAPI\Dao\ChartDao;
 use App\WebAPI\Dao\Daos;
-use App\WebAPI\Dao\DraftDao;
-use App\WebAPI\Dao\TeamDao;
 use App\WebAPI\Services\AccountService;
 use App\WebAPI\Services\Chart\ChartService;
 use App\WebAPI\Services\Draft\DraftCPUPickService;
@@ -22,6 +18,7 @@ use App\WebAPI\Services\ResponseService;
 use App\WebAPI\Services\RollService;
 use App\WebAPI\Services\Router\RouterService;
 use App\WebAPI\Services\TeamService;
+use App\WebAPI\Services\Translator\AccountTranslator;
 use App\WebAPI\Services\Translator\DraftTranslator;
 use App\WebAPI\Services\Translator\TeamTranslator;
 
@@ -57,15 +54,8 @@ class WebAPI {
 	/** @var TeamService team service */
 	public $teamService;
 
-	/** @var AccountDao */
-	public $accountDao;
-	/** @var ChartDao */
-	public $chartDao;
-	/** @var DraftDao */
-	public $draftDao;
-	/** @var TeamDao */
-	public $teamDao;
-
+	/** @var AccountTranslator */
+	public $accountTranslator;
 	/** @var DraftTranslator */
 	public $draftTranslator;
 	/** @var TeamTranslator */
@@ -93,6 +83,7 @@ class WebAPI {
 		$this->teamService = new TeamService($this, $daos);
 
 		// == Translators == //
+		$this->accountTranslator = new AccountTranslator($this);
 		$this->draftTranslator = new DraftTranslator($this);
 		$this->teamTranslator = new TeamTranslator($this);
 	}

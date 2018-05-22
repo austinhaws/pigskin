@@ -26,14 +26,14 @@ class AccountService extends BaseDaoService
 			$phrase = $phraseOrGuidOrId;
 		}
 
-		$account = $this->daos->account->select($id, $guid, $phrase);
+		$account = $this->webApi->accountTranslator->fromDBObj($this->daos->account->select($id, $guid, $phrase));
 
 
 		if ($account) {
 			$account->team = $this->webApi->responseService->cleanRecord($this->webApi->teamService->get($account->guid), ['accountId']);
 		}
 
-		return $account;
+		return $this->webApi->responseService->cleanRecord($account);
 	}
 
 	/**

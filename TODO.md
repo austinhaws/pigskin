@@ -1,6 +1,4 @@
-\[ ] DBTable:: should only ever be used in DAOs
-move these constants to the BaseDAO class so that they are only ever there
-\[ ] Search for DB:: and move all those to DAOs
+\[ ] Test Routers
 
 ### checklist for work
 - \[√] team DB
