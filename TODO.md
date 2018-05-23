@@ -8,12 +8,12 @@
 - \[√] DB Table for Draft object
 	- \[√] create table
 - \[ ] server layers work
-	- \[ ] create DAO - Create, Read, Update (no delete)
-	- \[ ] create service
-		- \[ ] create 
+	- \[X] create DAO - Create, Read, Update (no delete)
+	- \[X] create service
+		- \[X] create 
 	- \[X] get/create draft for team id
-	- \[ ] pick player in draft web service call
-	- \[ ] routes for webservice calls
+	- \[X] pick player in draft web service call
+	- \[X] routes for webservice calls
 	- \[ ] unittest webservice calls
 - \[ ] js webservice hookup
 	- \[ ] get/create draft
