@@ -16,7 +16,7 @@ use App\WebAPI\Services\PhraseService;
 use App\WebAPI\Services\PlayerService;
 use App\WebAPI\Services\ResponseService;
 use App\WebAPI\Services\RollService;
-use App\WebAPI\Services\Router\RouterService;
+use App\WebAPI\Services\RouterService;
 use App\WebAPI\Services\TeamService;
 use App\WebAPI\Services\Translator\AccountTranslator;
 use App\WebAPI\Services\Translator\DraftTranslator;
@@ -64,7 +64,7 @@ class WebAPI {
 
 	public function __construct()
 	{
-		// == Services == //
+		// == Services w/ DAOs == //
 		$daos = new Daos();
 		$this->accountService = new AccountService($this, $daos);
 		$this->chartService = new ChartService($this, $daos);
@@ -73,14 +73,16 @@ class WebAPI {
 		$this->draftPlayerPickService = new DraftPlayerPickService($this, $daos);
 		$this->draftService = new DraftService($this, $daos);
 		$this->guidService = new GuidService($this, $daos);
-		$this->jsonService = new JsonService($this);
 		$this->nameService = new NameService($this, $daos);
 		$this->phraseService = new PhraseService($this, $daos);
 		$this->playerService = new PlayerService($this, $daos);
+		$this->teamService = new TeamService($this, $daos);
+
+		// == Plain Services == //
+		$this->jsonService = new JsonService($this);
 		$this->responseService = new ResponseService($this);
 		$this->rollService = new RollService($this);
 		$this->routerService = new RouterService($this);
-		$this->teamService = new TeamService($this, $daos);
 
 		// == Translators == //
 		$this->accountTranslator = new AccountTranslator($this);

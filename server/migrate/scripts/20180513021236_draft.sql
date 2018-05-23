@@ -19,6 +19,7 @@
 
 CREATE TABLE draft (
 	id int(11) NOT NULL AUTO_INCREMENT,
+	guid VARCHAR(500),
 	availablePlayers TEXT,
 	draftSequence TEXT,
 	state NVARCHAR(500),

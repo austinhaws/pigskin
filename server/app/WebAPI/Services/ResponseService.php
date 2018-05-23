@@ -27,6 +27,16 @@ class ResponseService extends BaseService
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function cleanJsonResponse($record) {
-		return response()->json($this->cleanRecord($record));
+		return $this->jsonResponse($this->cleanRecord($record));
+	}
+
+	/**
+	 * respond with json of parameter
+	 *
+	 * @param mixed $obj
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function jsonResponse($obj) {
+		return response()->json($obj);
 	}
 }

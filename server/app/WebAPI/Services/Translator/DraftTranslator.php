@@ -15,6 +15,7 @@ class DraftTranslator extends BaseTranslator
 	public function toDBArray($draft) {
 		return [
 			'id' => $draft->id,
+			'guid' => $draft->guid,
 			'availablePlayers' => json_encode($draft->availablePlayers),
 			'draftSequence' => json_encode($draft->draftSequence),
 			'state' => $draft->state,
@@ -30,6 +31,7 @@ class DraftTranslator extends BaseTranslator
 		if ($draftDB) {
 			$draft = new Draft();
 			$draft->id = $draftDB->id;
+			$draft->guid = $draftDB->guid;
 			$draft->availablePlayers = $this->webApi->jsonService->jsonToObjectArray($draftDB->availablePlayers, Player::class);
 			$draft->draftSequence = $this->webApi->jsonService->jsonToObjectArray($draftDB->draftSequence, DraftSequence::class);
 			$draft->state = $draftDB->state;

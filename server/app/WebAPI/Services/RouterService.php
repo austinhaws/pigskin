@@ -1,8 +1,10 @@
 <?php
 
-namespace App\WebAPI\Services\Router;
+namespace App\WebAPI\Services;
 
-use App\WebAPI\Services\BaseService;
+use App\WebAPI\Services\Router\AccountRouter;
+use App\WebAPI\Services\Router\BaseRouter;
+use App\WebAPI\Services\Router\DraftRouter;
 use Laravel\Lumen\Routing\Router;
 
 class RouterService extends BaseService
@@ -17,6 +19,7 @@ class RouterService extends BaseService
 		parent::__construct($webApi);
 		$this->routers = [
 			new AccountRouter($webApi),
+			new DraftRouter($webApi),
 		];
 	}
 

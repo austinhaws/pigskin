@@ -13,8 +13,8 @@ class DraftRouter extends BaseRouter
 	function init($router)
 	{
 		$that = $this;
-		$router->get('/draft/get/{accountGuid}/{teamGuid}', function ($accountGuid, $teamGuid) use($that) {return $that->getDraft($accountGuid, $teamGuid);});
-		$router->post('/draft/pick', function (Request $request) use($that) {return $that->makeDraftPick($request->accountGuid, $request->teamGuid, $request->playerGuid);});
+		$router->get('draft/get/{accountGuid}/{teamGuid}', function ($accountGuid, $teamGuid) use($that) {return $that->getDraft($accountGuid, $teamGuid);});
+		$router->post('draft/pick', function (Request $request) use($that) {return $that->makeDraftPick($request->accountGuid, $request->teamGuid, $request->playerGuid);});
 	}
 
 	/**
@@ -23,10 +23,15 @@ class DraftRouter extends BaseRouter
 	 * @param $accountGuid string
 	 * @param $teamGuid string
 	 * @param $playerGuid string
-	 * @return \App\WebAPI\Models\Draft
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function makeDraftPick($accountGuid, $teamGuid, $playerGuid) {
-		return $this->webApi->draftService->makePlayerPick($accountGuid, $teamGuid, $playerGuid);
+		$results = $this->webApi->draftService->makePlayerPick($accountGuid, $teamGuid, $playerGuid);
+
+		$this->webApi->responseService->cleanRecord($results['draft']);
+		$this->webApi->responseService->cleanRecord($results['team']);
+
+		return $this->webApi->responseService->jsonResponse($results);
 	}
 
 	/**
@@ -34,10 +39,10 @@ class DraftRouter extends BaseRouter
 	 *
 	 * @param $accountGuid string
 	 * @param $teamGuid string
-	 * @return \App\WebAPI\Models\Draft
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function getDraft($accountGuid, $teamGuid) {
-		return $this->webApi->draftService->getDraft($accountGuid, $teamGuid);
+		return $this->webApi->responseService->cleanJsonResponse($this->webApi->draftService->getDraft($accountGuid, $teamGuid));
 	}
 }
 

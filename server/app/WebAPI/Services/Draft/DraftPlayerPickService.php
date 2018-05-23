@@ -31,7 +31,8 @@ class DraftPlayerPickService extends BaseDaoService
 					}
 				}
 				if ($playerIdx >= count($draft->availablePlayers)) {
-					throw new \RuntimeException("Picked player not found in draft: {$draft->id}->${$playerGuid}");
+					var_dump($draft->availablePlayers);
+					throw new \RuntimeException("Picked player not found in draft: {$draft->guid}->{$playerGuid}");
 				}
 
 				// remove from available players

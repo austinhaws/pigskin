@@ -33,13 +33,14 @@ class DraftService extends BaseDaoService
 	/**
 	 * a non-cpu team has picked a player from the draft
 	 *
-	 * @param $accountGuid
-	 * @param $playerGuid
-	 * @return \App\WebAPI\Models\Draft
+	 * @param string $accountGuid
+	 * @param string $teamGuid
+	 * @param string $playerGuid
+	 * @return array ['draft' => {}, 'team' => {}]
 	 */
-	public function makePlayerPick($accountGuid, $playerGuid)
+	public function makePlayerPick(string $accountGuid, string $teamGuid, string $playerGuid)
 	{
-		$team = $this->webApi->teamService->get($accountGuid);
+		$team = $this->webApi->teamService->get($accountGuid, $teamGuid);
 		$draft = $this->webApi->draftService->getDraft($accountGuid, $team->guid);
 		return $this->webApi->draftPlayerPickService->playerTeamPickDraftPlayer($draft, $accountGuid, $team, $playerGuid);
 	}

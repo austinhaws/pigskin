@@ -63,7 +63,7 @@ class DraftServiceTest extends BaseServiceTest
 		// pick an available_player
 		shuffle($draft->availablePlayers);
 		$player = array_shift($draft->availablePlayers);
-		$result = $this->webApiTest->draftService->makePlayerPick($account->guid, $player->guid);
+		$result = $this->webApiTest->draftService->makePlayerPick($account->guid, $team->guid, $player->guid);
 
 		// make sure the draft and team update correctly
 		$this->assertNotNull($result['draft']);
