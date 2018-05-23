@@ -1,5 +1,3 @@
-\[ ] Test Routers
-
 ### checklist for work
 - \[√] team DB
 	- \[√] add cpu/stage columns to team
@@ -14,13 +12,15 @@
 	- \[X] get/create draft for team id
 	- \[X] pick player in draft web service call
 	- \[X] routes for webservice calls
-	- \[ ] unittest webservice calls
+	- \[X] unittest webservice calls
+	- \[ ] calculate player route
+	- \[ ] end draft route
 - \[ ] js webservice hookup
 	- \[ ] get/create draft
 	- \[ ] pick player
 	- \[ ] calculate player
 - \[ ] js service creation
-	- \[ ] pass through to webservice calls
+	- \[X] pass through to webservice calls
 - \[ ] draft page (not all draft picks picked - remember to show all computer picks with timer before going to next page)
 	- \[ ] order & available players
 	- \[ ] teams viewing
