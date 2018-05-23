@@ -67,7 +67,6 @@ class DraftCreateService extends BaseDaoService
 
 		// save now that some picks may have been made by CPUs
 		$this->daos->draft->updateDraft($this->webApi->draftTranslator->toDBArray($draft));
-
 		return $draft;
 	}
 

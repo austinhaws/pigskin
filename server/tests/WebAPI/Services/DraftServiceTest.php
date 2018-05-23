@@ -14,7 +14,8 @@ class DraftServiceTest extends BaseServiceTest
 
 		$account = $this->webApiTest->accountService->create();
 		$team = $this->webApiTest->teamService->get($account->guid);
-		$draft = $this->webApiTest->draftService->getDraft($account->guid, $team->guid);
+		$result = $this->webApiTest->draftService->getDraft($account->guid, $team->guid);
+		$draft = $result['draft'];
 
 		$this->assertTrue(count($draft->availablePlayers) <= DraftCreateService::DRAFT_SIZE);
 		$this->assertEquals(count($draft->draftSequence), (DraftCreateService::NUMBER_CPUS + 1) * 5);
@@ -34,8 +35,19 @@ class DraftServiceTest extends BaseServiceTest
 		}
 
 		// get an already existing draft
-		$draft2 = $this->webApiTest->draftService->getDraft($account->guid, $team->guid);
-		$this->assertEquals($draft2->id, $draft->id);
+		$result = $this->webApiTest->draftService->getDraft($account->guid, $team->guid);
+		$draft2 = $result['draft'];
+		$this->assertEquals($draft2->guid, $draft->guid);
+
+		$sequence = $draft2->draftSequence[0];
+		$this->assertNotNull($sequence->playerPickedGuid);
+		$found = false;
+		foreach ($result['teams'] as $team) {
+			foreach ($team->players as $player) {
+				$found = $found || $player->guid === $sequence->playerPickedGuid;
+			}
+		}
+		$this->assertTrue($found);
 	}
 
 	public function testMakePlayerPick()
@@ -47,7 +59,8 @@ class DraftServiceTest extends BaseServiceTest
 		$team = $this->webApiTest->teamService->get($account->guid);
 
 		// create draft
-		$draft = $this->webApiTest->draftService->getDraft($account->guid, $team->guid);
+		$result = $this->webApiTest->draftService->getDraft($account->guid, $team->guid);
+		$draft = $result['draft'];
 
 		// check that the next pick to make is the player's pick
 		$found = false;
@@ -67,10 +80,14 @@ class DraftServiceTest extends BaseServiceTest
 
 		// make sure the draft and team update correctly
 		$this->assertNotNull($result['draft']);
-		$this->assertNotNull($result['team']);
+		$this->assertNotNull($result['teams']);
 
 		$playerGuid = $player->guid;
-		$teamPlayer = array_filter($result['team']->players, function ($player) use ($playerGuid) {
+		$teamGuid = $account->team->guid;
+		$team = array_first(array_filter($result['teams'], function ($team) use($teamGuid) {
+			return $team->guid === $teamGuid;
+		}));
+		$teamPlayer = array_filter($team->players, function ($player) use ($playerGuid) {
 			return $player->guid === $playerGuid;
 		});
 		$this->assertEquals(1, count($teamPlayer));

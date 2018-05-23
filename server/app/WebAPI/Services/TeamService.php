@@ -41,9 +41,17 @@ class TeamService extends BaseDaoService
 		} else if (!$accountId && $teamType === TeamType::PLAYER) {
 			throw new \RuntimeException('Non-CPU teams must have an account');
 		}
+		$name = null;
+		if ($accountId) {
+			$teams = $this->daos->team->selectTeamsForAccountId($accountId);
+			if (!count($teams)) {
+				$account = $this->daos->account->select($accountId);
+				$name = $account->phrase;
+			}
+		}
 		$team = new Team();
 		$team->accountId = $accountId;
-		$team->name = $this->webApi->phraseService->getRandomPhrase();
+		$team->name = $name ? $name : $this->webApi->phraseService->getRandomPhrase();
 		$team->players = $this->createPlayers();
 		$team->lineups = $this->createLineups($team->players);
 		$team->guid = $this->webApi->guidService->getNewGUID();

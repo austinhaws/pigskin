@@ -15,7 +15,7 @@ class DraftCPUPickService extends BaseDaoService
 	 */
 	public function cpuPickPlayers($draft) {
 		// get teams for draft
-		$teams = $this->webApi->teamTranslator->fromDBCollection($this->daos->draft->teamsForDraft($draft->id));
+		$teams = $this->webApi->teamTranslator->fromDBCollection($this->daos->draft->teamsForDraft($draft->guid));
 		$teamMap = [];
 		foreach ($teams as $team) {
 			$teamMap[$team->guid] = $team;
@@ -29,6 +29,7 @@ class DraftCPUPickService extends BaseDaoService
 					// if slot belongs to CPU then make a pick
 					$player = $this->pickPlayerForCPU($draft, $team);
 					$team->players[] = $player;
+					$this->daos->team->updateTeam($this->webApi->teamTranslator->toDBArray($team));
 					$sequence->playerPickedGuid = $player->guid;
 				} else {
 					// if slot belongs to player then done

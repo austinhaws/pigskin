@@ -23,7 +23,7 @@ abstract class BaseTranslator extends BaseService
 	 * convert a collection of DB objects to actual objects
 	 *
 	 * @param \Illuminate\Support\Collection $collectionDB
-	 * @return mixed[]
+	 * @return object[]
 	 */
 	public function fromDBCollection(\Illuminate\Support\Collection $collectionDB)
 	{

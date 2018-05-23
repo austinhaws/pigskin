@@ -55,4 +55,12 @@ class TeamDao extends BaseDao
 		}
 		return $query->first();
 	}
+
+	/**
+	 * @param int $accountId
+	 * @return \Illuminate\Support\Collection
+	 */
+	public function selectTeamsForAccountId(int $accountId) {
+		return DB::table(DBTable::TEAM)->where('accountId', $accountId)->get();
+	}
 }

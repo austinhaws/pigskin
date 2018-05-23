@@ -6,6 +6,20 @@ class ResponseService extends BaseService
 {
 
 	/**
+	 * collection version of cleanRecord()
+	 *
+	 * @param object[] $records records to clean
+	 * @param string[] $additionalFields fields to clean (id is always included)
+	 * @return array cleaned records (does not clone)
+	 */
+	public function cleanRecords($records, $additionalFields = []) {
+		$that = $this;
+		return array_map(function ($record) use($that, $additionalFields) {
+			return $that->cleanRecord($record, $additionalFields);
+		}, $records);
+	}
+
+	/**
 	 * pull common sensitive fields out of the record like id
 	 *
 	 * @param $record object the record that may have sensitive data

@@ -16,6 +16,8 @@ class TeamServiceTest extends BaseServiceTest
     {
     	$this->webApiTest->rollService->setRolls([RollServiceMock::INFINITE_WILD_CARD]);
     	$account = $this->webApiTest->accountService->create();
+    	$team = $this->webApiTest->teamService->get($account->guid);
+		$this->assertEquals($account->phrase, $team->name);
 
 		$teamPositions = array_merge(
 			Roster::OFFENSE_MINIMUM,
@@ -27,6 +29,7 @@ class TeamServiceTest extends BaseServiceTest
 		$team = $this->webApiTest->teamService->create($account->id, TeamType::PLAYER);
     	$this->assertEquals(count($teamPositions), count($team->players));
     	$this->assertEquals(TeamStage::DRAFT, $team->stage);
+    	// the first team an account gets has the same name as the account
 
     	// count up boosted stats and make sure they add up to 10
     	$numberUpgrades = array_reduce($team->players, function ($total, $player) {

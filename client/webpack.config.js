@@ -65,6 +65,11 @@ const config = {
 	plugins: [
 		cssExtract,
 	],
+
+	resolve: {
+		extensions: ['.js', '.jsx'],
+	},
+
 };
 
 module.exports = config;

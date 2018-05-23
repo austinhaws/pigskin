@@ -1,6 +1,6 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
-import TestRoutes from "./TestRoutes.jsx";
+import TestRoutes from "./TestRoutes";
 
 export default class Admin extends React.Component {
 

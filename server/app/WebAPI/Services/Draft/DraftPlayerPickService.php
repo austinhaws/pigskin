@@ -16,7 +16,7 @@ class DraftPlayerPickService extends BaseDaoService
 	 * @return array draft and team after the picks
 	 */
 	public function playerTeamPickDraftPlayer(Draft $draft, string $accountGuid, Team $playerTeam, string $playerGuid) {
-		$result = ['draft' => null, 'team' => null];
+		$result = ['draft' => null, 'teams' => null];
 		foreach ($draft->draftSequence as $sequence) {
 			if (!$sequence->playerPickedGuid) {
 				if ($sequence->teamGuid !== $playerTeam->guid) {
@@ -53,8 +53,7 @@ class DraftPlayerPickService extends BaseDaoService
 				$this->daos->draft->updateDraft($this->webApi->draftTranslator->toDBArray($draft));
 
 				// get the changed draft and team
-				$result['draft'] = $this->webApi->draftService->getDraft($accountGuid, $playerTeam->guid);
-				$result['team'] = $this->webApi->teamService->get($accountGuid, $playerTeam->guid);
+				$result = $this->webApi->draftService->getDraft($accountGuid, $playerTeam->guid);
 				break;
 			}
 		}

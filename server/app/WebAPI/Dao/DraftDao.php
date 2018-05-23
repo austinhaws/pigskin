@@ -51,13 +51,15 @@ class DraftDao extends BaseDao
 
 	/**
 	 * get all team DB objects that are participating in a draft
-	 * @param $draftId int
+	 * @param string $draftGuid
 	 * @return \Illuminate\Support\Collection
 	 */
-	public function teamsForDraft($draftId) {
+	public function teamsForDraft(string $draftGuid) {
 		return DB::table(DBTable::TEAM)
+			->select('team.*')
 			->join('draft_x_team', 'draft_x_team.teamId', '=', 'team.id')
-			->where('draft_x_team.draftId', $draftId)
+			->join('draft', 'draft.id', '=', 'draft_x_team.draftId')
+			->where('draft.guid', $draftGuid)
 			->get();
 	}
 }

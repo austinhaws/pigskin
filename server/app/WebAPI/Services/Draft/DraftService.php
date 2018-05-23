@@ -3,7 +3,6 @@
 namespace App\WebAPI\Services\Draft;
 
 use App\WebAPI\Enums\TeamStage;
-use App\WebAPI\Models\Draft;
 use App\WebAPI\Services\BaseDaoService;
 
 class DraftService extends BaseDaoService
@@ -13,7 +12,7 @@ class DraftService extends BaseDaoService
 	 *
 	 * @param $accountGuid string
 	 * @param $teamGuid string
-	 * @return Draft
+	 * @return array ['draft' => Draft, 'teams' => [Team]]
 	 */
 	public function getDraft($accountGuid, $teamGuid) {
 		$team = $this->webApi->teamService->get($accountGuid, $teamGuid);
@@ -27,7 +26,12 @@ class DraftService extends BaseDaoService
 			// start a new draft
 			$draft = $this->webApi->draftCreateService->createDraft($team->guid);
 		}
-		return $draft;
+
+		$teams = $this->webApi->teamTranslator->fromDBCollection($this->daos->draft->teamsForDraft($draft->guid));
+		return [
+			'draft' => $draft,
+			'teams' => $teams,
+		];
 	}
 
 	/**
@@ -42,6 +46,6 @@ class DraftService extends BaseDaoService
 	{
 		$team = $this->webApi->teamService->get($accountGuid, $teamGuid);
 		$draft = $this->webApi->draftService->getDraft($accountGuid, $team->guid);
-		return $this->webApi->draftPlayerPickService->playerTeamPickDraftPlayer($draft, $accountGuid, $team, $playerGuid);
+		return $this->webApi->draftPlayerPickService->playerTeamPickDraftPlayer($draft['draft'], $accountGuid, $team, $playerGuid);
 	}
 }

@@ -14,13 +14,19 @@ class DraftRouterTest extends BaseRouterTest
 		$account = $this->webApiTest->accountService->create();
 
 		// get new draft for account/team
-		$draft1 = $this->decodeJsonFromResponse($this->get("draft/get/{$account->guid}/{$account->team->guid}"));
+		$result = $this->decodeJsonFromResponse($this->get("draft/get/{$account->guid}/{$account->team->guid}"));
+		$draft1 = $result->draft;
+		$teams = $result->teams;
+		$this->assertEquals(6, count($teams));
 
 		$this->assertNotNull($draft1);
 		$this->assertNotNull($draft1->guid);
 
 		// get existing draft for account/team
-		$draft2 = $this->decodeJsonFromResponse($this->get("draft/get/{$account->guid}/{$account->team->guid}"));
+		$result = $this->decodeJsonFromResponse($this->get("draft/get/{$account->guid}/{$account->team->guid}"));
+		$draft2 = $result->draft;
+		$teams = $result->teams;
+		$this->assertEquals(6, count($teams));
 
 		$this->assertNotNull($draft2);
 		$this->assertEquals($draft1->guid, $draft2->guid);
@@ -33,7 +39,8 @@ class DraftRouterTest extends BaseRouterTest
 		$account = $this->webApiTest->accountService->create();
 
 		// get new draft for account/team
-		$draft1 = $this->decodeJsonFromResponse($this->get("draft/get/{$account->guid}/{$account->team->guid}"));
+		$result = $this->decodeJsonFromResponse($this->get("draft/get/{$account->guid}/{$account->team->guid}"));
+		$draft1 = $result->draft;
 
 		// get an available player guid
 		shuffle($draft1->availablePlayers);
@@ -50,13 +57,17 @@ class DraftRouterTest extends BaseRouterTest
 
 		// make sure team got new player
 		$pickedPlayerGuid = $pickedPlayer->guid;
-		$this->assertTrue($this->playersHasPlayerGuid($results->team->players, $pickedPlayerGuid));
+		$teamGuid = $account->team->guid;
+		$team = array_first(array_filter($results->teams, function ($team) use($teamGuid) {
+			return $team->guid === $teamGuid;
+		}));
+		$this->assertTrue($this->playersHasPlayerGuid($team->players, $pickedPlayerGuid));
 
 		// make sure draft does not have that player
 		$this->assertFalse($this->playersHasPlayerGuid($results->draft->availablePlayers, $pickedPlayerGuid));
 
 		// select draft/team and make sure from the DB they are in this correct state
-		$draft = $this->webApiTest->draftService->getDraft($account->guid, $account->team->guid);
+		$draft = $this->webApiTest->draftService->getDraft($account->guid, $account->team->guid)['draft'];
 		$this->assertFalse($this->playersHasPlayerGuid($draft->availablePlayers, $pickedPlayerGuid));
 
 		$team = $this->webApiTest->teamService->get($account->guid, $account->team->guid);
