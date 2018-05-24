@@ -2,7 +2,7 @@ import React from "react";
 import DataType from "./DataType";
 
 export default class {
-	constructor({title, field, sortOrder, dataType, customSort}) {
+	constructor({title, field, sortOrder, dataType, customSort, customRowColumn}) {
 		const requireField = (title, field) => field ? field : console.error(`{title} is required for a table's Column`);
 
 		const requiredFields = [
@@ -14,6 +14,7 @@ export default class {
 
 		if (dataType === DataType.CUSTOM) {
 			requiredFields.push({field: 'customSort', title:'customSort'});
+			requiredFields.push({field: 'customRowColumn', title:'customRowColumn'});
 		}
 		requiredFields.forEach(test => requireField(test.title, test.field));
 
@@ -26,5 +27,6 @@ export default class {
 		this.sortOrder = sortOrder;
 		this.dataType = dataType;
 		this.customSort = customSort;
+		this.customRowColumn = customRowColumn;
 	}
 };

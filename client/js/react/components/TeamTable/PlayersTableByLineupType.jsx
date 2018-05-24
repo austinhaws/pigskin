@@ -3,15 +3,18 @@ import PropTypes from "prop-types";
 import {Tab, Tabs} from "material-ui";
 import Enum from '../../../enum/Enum.js';
 import PlayersTable from "./PlayersTable";
+import Column from "../TableWrapper/Column";
 
 const defaultProps = {
 	players: undefined,
 	hideColumns: [],
+	addColumns: [],
 };
 
 const propTypes = {
 	players: PropTypes.arrayOf(PropTypes.object),
 	hideColumns: PropTypes.arrayOf(PropTypes.string),
+	addColumns: PropTypes.arrayOf(PropTypes.instanceOf(Column)),
 };
 
 export default class PlayersTableByLineupType extends React.Component {
@@ -34,7 +37,7 @@ export default class PlayersTableByLineupType extends React.Component {
 						<Tab key={positionType} label={positionType} selected={this.state.lineupType === positionType} value={positionType} />
 					))}
 				</Tabs>
-				<PlayersTable players={filteredPlayers} hideColumns={this.props.hideColumns}/>
+				<PlayersTable players={filteredPlayers} hideColumns={this.props.hideColumns} addColumns={this.props.addColumns}/>
 			</React.Fragment>
 		);
 	}

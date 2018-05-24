@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {MenuItem, SelectField} from "material-ui";
+import {MenuItem, SelectField, TableRowColumn} from "material-ui";
 import DraftSequence from "./DraftSequence";
 import clone from 'clone';
 import PlayersTableByLineupType from "../../components/TeamTable/PlayersTableByLineupType";
+import Column from "../../components/TableWrapper/Column";
+import DataType from "../../components/TableWrapper/DataType";
 
 const defaultProps = {
 	account: undefined,
@@ -19,11 +21,37 @@ export default class Draft extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.draftSequenceInterval = this.draftSequenceInterval.bind(this);
+
 		this.state = {
 			showTeamGuid: 'draft',
 			teams: undefined,
 			draft: undefined,
+			draftSequenceIndex: -1,
+			draftSequenceTimer: undefined,
 		};
+	}
+
+	componentDidMount() {
+		if (!this.state.draftSequenceTimer) {
+			this.setState({draftSequnceTimer: setInterval(this.draftSequenceInterval, 2500)})
+		}
+	}
+
+	draftSequenceInterval() {
+		if (this.state.draft) {
+			// find max draft sequence that has been picked so far
+			const maxPickedIndex = this.state.draft.draftSequence.reduce((maxPickedIndex, draftSequence, i) => Math.max(maxPickedIndex, draftSequence.playerPickedGuid ? i : -1), -1);
+
+			// up draftSequenceIndex by 1 if the next pick has been picked or if it is the logged in player's turn
+			if (this.state.draftSequenceIndex <= maxPickedIndex || (
+				this.state.draft.draftSequence.length > this.state.draftSequenceIndex + 1 &&
+				this.props.account &&
+				this.state.draft.draftSequence[this.state.draftSequenceIndex + 1].teamGuid === this.props.account.team.guid
+			)) {
+				this.setState({draftSequenceIndex: this.state.draftSequenceIndex + 1});
+			}
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -50,6 +78,23 @@ export default class Draft extends React.Component {
 			players=showTeam.players;
 		}
 
+		// if it's the player's turn to pick then show pick column buttons
+		let addColumns;
+		if (this.props.account && this.state.draft && this.state.draftSequenceIndex >= 0) {
+			const draftSequence = this.state.draft.draftSequence[this.state.draftSequenceIndex];
+			if (!draftSequence.playerPickedGuid && draftSequence.teamGuid === this.props.account.team.guid) {
+				addColumns = [
+					new Column({
+						title: '',
+						field: 'pickButton',
+						sortOrder: ['name'],
+						dataType:DataType.CUSTOM,
+						customSort: (a, b) => a.name.localeCompare(b.name),
+						customRowColumn: record => <TableRowColumn key={record.guid}>Hello World</TableRowColumn>}),
+				];
+			}
+		}
+
 		const teamsList = clone(this.state.teams);
 		teamsList && teamsList.sort((a, b) => (this.props.account && this.props.account.team.guid === a.guid) ? -1 : a.name.localeCompare(b.name));
 
@@ -57,7 +102,7 @@ export default class Draft extends React.Component {
 			<React.Fragment>
 				<div className="draft-container">
 					<div className="draft-sequence">
-						<DraftSequence draft={this.state.draft} teams={this.state.teams} />
+						<DraftSequence draft={this.state.draft} teams={this.state.teams} currentlyPickingIndex={this.state.draftSequenceIndex}/>
 					</div>
 					<div className="draft-teams">
 						<SelectField value={this.state.showTeamGuid} onChange={(_, __, teamGuid) => this.setState({showTeamGuid: teamGuid})}>
@@ -71,7 +116,7 @@ export default class Draft extends React.Component {
 								/>
 							)) : undefined}
 						</SelectField>
-						<PlayersTableByLineupType players={players} hideColumns={hideColumns} />
+						<PlayersTableByLineupType players={players} hideColumns={hideColumns} addColumns={addColumns}/>
 					</div>
 
 				</div>
@@ -84,6 +129,8 @@ export default class Draft extends React.Component {
 - 1/2 page width: list of players (no scores nor injury)
 	- columns
 		- button to pick if it's your turn to pick
+		- pass extra columns to playertablebylineup and have TableWrapper able to accept extra columns
+		- the extra column for buttons has a custom columnRender that will create its own buttons
 - progress through draft instead of all at once
  */
 

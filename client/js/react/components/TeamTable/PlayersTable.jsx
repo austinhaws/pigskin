@@ -7,11 +7,13 @@ import DataType from "../../components/TableWrapper/DataType";
 const defaultProps = {
 	players: undefined,
 	hideColumns: [],
+	addColumns: [],
 };
 
 const propTypes = {
 	players: PropTypes.arrayOf(PropTypes.object),
 	hideColumns: PropTypes.arrayOf(PropTypes.string),
+	addColumns: PropTypes.arrayOf(PropTypes.instanceOf(Column)),
 };
 
 export default class PlayersTable extends React.Component {
@@ -34,7 +36,7 @@ export default class PlayersTable extends React.Component {
 		// sort the data every time because google material is stupid
 		return (
 			<TableWrapper
-				columns={this.tableColumns.filter(c => !this.props.hideColumns.includes(c.field))}
+				columns={this.tableColumns.filter(c => !this.props.hideColumns.includes(c.field)).concat(this.props.addColumns)}
 				list={this.props.players}
 				dataKeyField="guid"
 			/>

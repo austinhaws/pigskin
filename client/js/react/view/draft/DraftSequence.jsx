@@ -13,6 +13,8 @@ const defaultProps = {
 const propTypes = {
 	draft: PropTypes.object,
 	teams: PropTypes.arrayOf(PropTypes.object),
+	// index in to draft.draftSequence for the team currently "on the clock"; don't show this pick nor after this one
+	currentlyPickingIndex: PropTypes.number.isRequired,
 };
 
 export default class DraftSequence extends React.Component {
@@ -36,7 +38,7 @@ export default class DraftSequence extends React.Component {
 		}, {});
 
 		const displayData = this.props.draft ? this.props.draft.draftSequence.map((sequence, i) => {
-			const player = sequence.playerPickedGuid && playerMap[sequence.playerPickedGuid];
+			const player = i < this.props.currentlyPickingIndex && sequence.playerPickedGuid && playerMap[sequence.playerPickedGuid];
 			return {
 				orderNumber: i,
 				teamName: teamMap[sequence.teamGuid].name,

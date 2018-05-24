@@ -100,7 +100,7 @@ export default class TableWrapper extends React.Component {
 					{
 						showList.map(data => (
 							<TableRow key={data[this.props.dataKeyField]}>
-								{this.props.columns.map(c => <TableRowColumn key={c.field}>{data[c.field]}</TableRowColumn>)}
+								{this.props.columns.map(c => c.customRowColumn ? c.customRowColumn(data) : <TableRowColumn key={c.field}>{data[c.field]}</TableRowColumn>)}
 							</TableRow>
 						))
 					}
