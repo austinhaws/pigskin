@@ -29,7 +29,7 @@ class DraftRouter extends BaseRouter
 		$results = $this->webApi->draftService->makePlayerPick($accountGuid, $teamGuid, $playerGuid);
 
 		$this->webApi->responseService->cleanRecord($results['draft']);
-		$this->webApi->responseService->cleanRecords($results['teams']);
+		$this->webApi->responseService->cleanRecords($results['teams'], ['accountId']);
 
 		return $this->webApi->responseService->jsonResponse($results);
 	}
@@ -44,7 +44,7 @@ class DraftRouter extends BaseRouter
 	public function getDraft($accountGuid, $teamGuid) {
 		$results = $this->webApi->draftService->getDraft($accountGuid, $teamGuid);
 		$this->webApi->responseService->cleanRecord($results['draft']);
-		$this->webApi->responseService->cleanRecords($results['teams']);
+		$this->webApi->responseService->cleanRecords($results['teams'], ['accountId']);
 
 		return $this->webApi->responseService->jsonResponse($results);
 	}

@@ -75,14 +75,9 @@ table th {
 	flex-direction: row;
 }
 
-.draft-container {
-	background-color: white;
-}
 .draft-container .draft-sequence {
 	width: 40%;
-	margin-top: 99px;
-	border-right: 1px solid gray;
 }
 .draft-container .draft-teams {
-	width: 55%;
+	width: 60%;
 }

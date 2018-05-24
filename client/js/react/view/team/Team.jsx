@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TeamTableFilter from "../../components/TeamTable/TeamTableFilter";
+import PlayersTableByLineupType from "../../components/TeamTable/PlayersTableByLineupType";
 
 const defaultProps = {
 	account: undefined,
@@ -12,7 +12,7 @@ const propTypes = {
 
 export default class Team extends React.Component {
 	render() {
-		return <TeamTableFilter team={this.props.account ? this.props.account.team : undefined} />;
+		return <PlayersTableByLineupType players={this.props.account ? this.props.account.team.players : undefined} />;
 	}
 
 }

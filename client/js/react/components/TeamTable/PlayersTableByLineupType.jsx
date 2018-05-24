@@ -2,17 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import {Tab, Tabs} from "material-ui";
 import Enum from '../../../enum/Enum.js';
-import TeamTable from "../../components/TeamTable/TeamTable";
+import PlayersTable from "./PlayersTable";
 
 const defaultProps = {
-	team: undefined,
+	players: undefined,
+	hideColumns: [],
 };
 
 const propTypes = {
-	team: PropTypes.object,
+	players: PropTypes.arrayOf(PropTypes.object),
+	hideColumns: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default class TeamTableFilter extends React.Component {
+export default class PlayersTableByLineupType extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -24,7 +26,7 @@ export default class TeamTableFilter extends React.Component {
 	render() {
 		// sort the data every time because google material is stupid
 		const filterRoster = Enum.roster.rosterForPositionType(this.state.lineupType);
-		const filteredPlayers = this.props.team ? this.props.team.players.filter(player => filterRoster.includes(player.position)) : [];
+		const filteredPlayers = this.props.players ? this.props.players.filter(player => filterRoster.includes(player.position)) : [];
 		return (
 			<React.Fragment>
 				<Tabs onChange={value => this.setState({lineupType: value})}>
@@ -32,13 +34,12 @@ export default class TeamTableFilter extends React.Component {
 						<Tab key={positionType} label={positionType} selected={this.state.lineupType === positionType} value={positionType} />
 					))}
 				</Tabs>
-				<TeamTable players={filteredPlayers}/>
+				<PlayersTable players={filteredPlayers} hideColumns={this.props.hideColumns}/>
 			</React.Fragment>
 		);
 	}
 
 }
 
-
-TeamTableFilter.propTypes = propTypes;
-TeamTableFilter.defaultProps = defaultProps;
+PlayersTableByLineupType.propTypes = propTypes;
+PlayersTableByLineupType.defaultProps = defaultProps;

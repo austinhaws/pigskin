@@ -6,13 +6,15 @@ import DataType from "../../components/TableWrapper/DataType";
 
 const defaultProps = {
 	players: undefined,
+	hideColumns: [],
 };
 
 const propTypes = {
 	players: PropTypes.arrayOf(PropTypes.object),
+	hideColumns: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default class TeamTable extends React.Component {
+export default class PlayersTable extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -32,7 +34,7 @@ export default class TeamTable extends React.Component {
 		// sort the data every time because google material is stupid
 		return (
 			<TableWrapper
-				columns={this.tableColumns}
+				columns={this.tableColumns.filter(c => !this.props.hideColumns.includes(c.field))}
 				list={this.props.players}
 				dataKeyField="guid"
 			/>
@@ -41,5 +43,5 @@ export default class TeamTable extends React.Component {
 
 }
 
-TeamTable.propTypes = propTypes;
-TeamTable.defaultProps = defaultProps;
+PlayersTable.propTypes = propTypes;
+PlayersTable.defaultProps = defaultProps;
